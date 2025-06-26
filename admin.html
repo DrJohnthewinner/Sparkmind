@@ -32,7 +32,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 20px;
-      background-attachment: fixed; /* Ensures background stays fixed during scroll */
+      background-attachment: fixed;
+      /* Ensures background stays fixed during scroll */
     }
 
     /* Main Content Area - Wrapper for the card */
@@ -42,8 +43,10 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      max-width: 900px; /* Adjusted max-width for a slightly more compact feel */
-      padding: 20px; /* Added internal padding to main content */
+      max-width: 900px;
+      /* Adjusted max-width for a slightly more compact feel */
+      padding: 20px;
+      /* Added internal padding to main content */
       animation: fadeIn 1s ease-in-out;
     }
 
@@ -95,7 +98,8 @@
       /* Slightly smaller for better fit */
       margin-bottom: 30px;
       color: #fff;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      /* Subtle text shadow */
     }
 
     /* Form Element Styling */
@@ -133,7 +137,8 @@
       outline: none;
       box-shadow: 0 0 0 4px rgba(38, 208, 206, 0.3);
       /* More prominent glow */
-      background: rgba(255, 255, 255, 0.12); /* Slightly more opaque on focus */
+      background: rgba(255, 255, 255, 0.12);
+      /* Slightly more opaque on focus */
     }
 
     /* Dropdown arrow color */
@@ -169,14 +174,16 @@
       color: white;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition curve */
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      /* Smoother transition curve */
       backdrop-filter: blur(5px);
       /* Frosted button effect */
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 1.05rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle initial shadow */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      /* Subtle initial shadow */
     }
 
     button i {
@@ -198,17 +205,21 @@
       background: rgba(239, 68, 68, 0.25);
       /* Red with transparency */
       float: right;
-      margin-bottom: 25px; /* More space below */
-      padding: 10px 20px; /* Slightly smaller for an "action" button */
+      margin-bottom: 25px;
+      /* More space below */
+      padding: 10px 20px;
+      /* Slightly smaller for an "action" button */
       font-size: 0.95rem;
-      border-radius: 8px; /* Slightly less rounded */
+      border-radius: 8px;
+      /* Slightly less rounded */
     }
 
     .logout-button:hover {
       background: #ef4444;
       /* Solid red on hover */
       color: white;
-      transform: translateY(-2px); /* Subtle lift */
+      transform: translateY(-2px);
+      /* Subtle lift */
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
@@ -231,7 +242,8 @@
       /* More space above list */
       padding-right: 12px;
       /* Space for scrollbar */
-      border-top: 1px solid rgba(255, 255, 255, 0.2); /* Separator line */
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      /* Separator line */
       padding-top: 20px;
     }
 
@@ -241,12 +253,14 @@
     }
 
     .note-list::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05); /* Very subtle track */
+      background: rgba(255, 255, 255, 0.05);
+      /* Very subtle track */
       border-radius: 10px;
     }
 
     .note-list::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2); /* Semi-transparent thumb */
+      background: rgba(255, 255, 255, 0.2);
+      /* Semi-transparent thumb */
       border-radius: 10px;
     }
 
@@ -264,7 +278,8 @@
       /* More generous padding */
       border-radius: 10px;
       display: flex;
-      flex-wrap: wrap; /* Allows wrapping on smaller screens */
+      flex-wrap: wrap;
+      /* Allows wrapping on smaller screens */
       justify-content: space-between;
       align-items: center;
       color: #333;
@@ -285,14 +300,16 @@
       font-size: 1.05rem;
       /* Slightly larger font */
       line-height: 1.4;
-      max-width: calc(100% - 180px); /* Adjust max-width to leave space for buttons */
+      max-width: calc(100% - 180px);
+      /* Adjust max-width to leave space for buttons */
     }
 
     .note-item .actions {
       display: flex;
       gap: 8px;
       /* Slightly reduced gap for buttons */
-      margin-top: 5px; /* Margin for when items wrap */
+      margin-top: 5px;
+      /* Margin for when items wrap */
     }
 
     .note-item button {
@@ -306,7 +323,8 @@
       font-weight: 500;
       backdrop-filter: none;
       /* No frosted effect */
-      box-shadow: none; /* No shadow for these buttons */
+      box-shadow: none;
+      /* No shadow for these buttons */
       transition: background 0.2s ease, transform 0.1s ease;
       /* Smoother transition */
     }
@@ -317,7 +335,8 @@
 
     .note-item button:hover {
       background: #dc2626;
-      transform: translateY(-1px); /* Subtle lift on hover */
+      transform: translateY(-1px);
+      /* Subtle lift on hover */
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
@@ -332,7 +351,8 @@
       text-decoration: underline;
       margin-left: 10px;
       font-weight: 500;
-      word-break: break-all; /* Ensures long URLs don't break layout */
+      word-break: break-all;
+      /* Ensures long URLs don't break layout */
     }
 
     .note-item a:hover {
@@ -352,7 +372,8 @@
     }
 
     .footer a {
-      color: rgba(255, 255, 255, 0.9); /* Slightly brighter white for footer link */
+      color: rgba(255, 255, 255, 0.9);
+      /* Slightly brighter white for footer link */
       text-decoration: none;
       transition: color 0.3s ease;
     }
@@ -381,8 +402,10 @@
       .logout-button {
         float: none;
         display: block;
-        width: fit-content; /* Allow button to size naturally */
-        margin: 0 auto 20px auto; /* Center logout button */
+        width: fit-content;
+        /* Allow button to size naturally */
+        margin: 0 auto 20px auto;
+        /* Center logout button */
       }
 
       .note-item {
@@ -394,19 +417,24 @@
       .note-item span {
         margin-right: 0;
         margin-bottom: 10px;
-        width: 100%; /* Take full width on smaller screens */
-        max-width: 100%; /* Override previous max-width */
+        width: 100%;
+        /* Take full width on smaller screens */
+        max-width: 100%;
+        /* Override previous max-width */
       }
 
       .note-item .actions {
         width: 100%;
-        justify-content: flex-end; /* Align buttons to the right */
+        justify-content: flex-end;
+        /* Align buttons to the right */
         margin-top: 0;
       }
 
       .note-item button {
-        flex-grow: 1; /* Allow buttons to expand if needed */
-        max-width: 48%; /* Max width for two buttons per row */
+        flex-grow: 1;
+        /* Allow buttons to expand if needed */
+        max-width: 48%;
+        /* Max width for two buttons per row */
       }
     }
 
@@ -536,49 +564,63 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Supabase Config (Corrected Key)
-    const SUPABASE_URL = 'https://jjqbpiujwmlfgztpinyp.supabase.co'; // Replace
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqcWJwaXVqd21sZmd6dHBpbnlwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTM5MDczOCwiZXhwIjoyMDY0OTY2NzM4fQ.Jo9Mid8gRnhzMBeY_JN58aGwXHsC-0PfD_LwD292wyk'; // Corrected: Removed extra single quote
+    // Supabase Config
+    const SUPABASE_URL = 'https://jjqbpiujwmlfgztpinyp.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqcWJwaXVqd21sZmd6dHBpbnlwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTM5MDczOCwiZXhwIjoyMDY0OTY2NzM4fQ.Jo9Mid8gRnhzMBeY_JN58aGwXHsC-0PfD_LwD292wyk';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // DOM Selectors
+    // DOM Elements
     const loginSection = document.getElementById('login-section');
     const dashboardSection = document.getElementById('dashboard-section');
     const loginError = document.getElementById('login-error');
     const noteForm = document.getElementById('note-form');
     const submitButton = document.getElementById('submit-button');
     const cancelButton = document.getElementById('cancel-edit-button');
+    const noteList = document.getElementById('note-list'); // Ensure this element is correctly selected
 
-    let editingNoteId = null; // To store the ID of the note being edited
+    let editingNoteId = null;
+    let currentFileUrl = null; // To store the file URL of the note being edited
 
+    // Auth State Listener
     auth.onAuthStateChanged(user => {
       if (user) showDashboard();
       else showLogin();
     });
 
+    // Authentication Functions
     function login() {
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
+
       auth.signInWithEmailAndPassword(email, password)
         .then(() => showDashboard())
-        .catch(error => loginError.textContent = error.message);
+        .catch(error => {
+          loginError.textContent = error.message;
+          setTimeout(() => loginError.textContent = '', 5000); // Clear error after 5 seconds
+        });
     }
 
     function logout() {
-      auth.signOut();
+      auth.signOut()
+        .then(() => showLogin())
+        .catch(error => console.error("Logout error:", error)); // Log error, but still transition to login
     }
 
     function showLogin() {
       loginSection.classList.add('active');
       dashboardSection.classList.remove('active');
+      // Clear input fields when showing login
+      document.getElementById('email').value = '';
+      document.getElementById('password').value = '';
     }
 
     function showDashboard() {
       loginSection.classList.remove('active');
       dashboardSection.classList.add('active');
-      loadNotes();
+      loadNotes(); // Load notes when dashboard is shown
     }
 
+    // Note Management Functions
     noteForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -588,117 +630,169 @@
       const grade = document.getElementById('grade').value;
       const fileInput = document.getElementById('fileInput');
 
-      if (!subject || !grade) {
-        alert('Please select both subject and grade.');
+      // Basic validation for required fields
+      if (!title || !content || !subject || !grade) {
+        // Replace alert with a custom message box or display it in the error div
+        displayMessage('Please fill all required fields.', 'error');
         return;
       }
-
-      let fileUrl = '';
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const filePath = `notes/${Date.now()}-${file.name}`;
-        const {
-          data,
-          error
-        } = await supabaseClient.storage.from('notes').upload(filePath, file);
-
-        if (error) {
-          alert('File upload error: ' + error.message);
-          return;
-        }
-        const {
-          publicURL
-        } = supabaseClient.storage.from('notes').getPublicUrl(filePath);
-        fileUrl = publicURL;
-      } else if (editingNoteId) {
-        // If no new file is uploaded, keep the existing fileUrl for an update operation
-        const currentNote = await db.collection('notes').doc(editingNoteId).get();
-        fileUrl = currentNote.data().fileUrl || null;
-      }
-
 
       const noteData = {
         title,
         content,
         subject,
         grade,
-        fileUrl: fileUrl || null,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp() // Always update timestamp on save
       };
 
-      if (editingNoteId) {
-        // Update existing note
-        db.collection('notes').doc(editingNoteId).update(noteData)
-          .then(() => {
-            alert('Note updated successfully!');
-            resetForm();
-            loadNotes();
-          })
-          .catch(error => {
-            alert('Error updating note: ' + error.message);
-          });
+      // Handle file upload if a new file is selected
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${file.name}`; // Unique file name
+        const filePath = `notes/${fileName}`;
+
+        try {
+          // If editing and a new file is uploaded, delete the old one from Supabase Storage
+          if (editingNoteId && currentFileUrl) {
+            // Extract the path from the full URL. Supabase URLs often follow a pattern like
+            // https://[PROJECT_ID].supabase.co/storage/v1/object/public/bucket_name/path/to/file.ext
+            // We need 'path/to/file.ext'
+            const oldFilePathSegment = currentFileUrl.split('/notes/')[1];
+            if (oldFilePathSegment) {
+                await supabaseClient.storage.from('notes').remove([oldFilePathSegment]);
+            }
+          }
+
+          // Upload the new file
+          const {
+            error: uploadError
+          } = await supabaseClient.storage
+            .from('notes')
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          // Get the public URL for the newly uploaded file
+          const {
+            data: {
+              publicUrl
+            }
+          } = supabaseClient.storage
+            .from('notes')
+            .getPublicUrl(filePath);
+
+          noteData.fileUrl = publicUrl;
+          noteData.fileType = file.type; // Store file type (e.g., 'application/pdf', 'image/jpeg')
+          noteData.fileName = file.name; // Store original file name
+        } catch (error) {
+          console.error("File upload error:", error);
+          displayMessage('File upload failed: ' + error.message, 'error'); // Use custom message
+          return;
+        }
+      } else if (editingNoteId) {
+        // If no new file is uploaded during an edit operation, retain the existing file URL and info
+        noteData.fileUrl = currentFileUrl;
+        // Optionally, fetch fileType and fileName from the original note if not explicitly stored
+        // This assumes these fields were saved when the note was originally created/updated
+        const existingNoteDoc = await db.collection('notes').doc(editingNoteId).get();
+        if(existingNoteDoc.exists) {
+          noteData.fileType = existingNoteDoc.data().fileType || null;
+          noteData.fileName = existingNoteDoc.data().fileName || null;
+        }
       } else {
-        // Add new note
-        db.collection('notes').add(noteData)
-          .then(() => {
-            alert('Note uploaded successfully!');
-            resetForm();
-            loadNotes();
-          })
-          .catch(error => {
-            alert('Error uploading note: ' + error.message);
-          });
+        // For new notes without a file, explicitly set fileUrl to null
+        noteData.fileUrl = null;
+        noteData.fileType = null;
+        noteData.fileName = null;
+      }
+
+
+      try {
+        if (editingNoteId) {
+          // Update existing note
+          await db.collection('notes').doc(editingNoteId).update(noteData);
+          displayMessage('Note updated successfully!', 'success');
+        } else {
+          // Add new note
+          noteData.createdAt = firebase.firestore.FieldValue.serverTimestamp(); // Set createdAt only for new notes
+          await db.collection('notes').add(noteData);
+          displayMessage('Note added successfully!', 'success');
+        }
+        resetForm(); // Clear form and editing state
+        loadNotes(); // Reload notes list
+      } catch (error) {
+        console.error("Database error:", error);
+        displayMessage('Error saving note: ' + error.message, 'error'); // Use custom message
       }
     });
 
-    function loadNotes() {
-      db.collection('notes').orderBy('createdAt', 'desc').get()
-        .then(snapshot => {
-          const noteList = document.getElementById('note-list');
-          let notesHTML = '';
+    async function loadNotes() {
+      try {
+        // Added loading state
+        noteList.innerHTML = `<div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading notes...</p></div>`;
 
-          snapshot.forEach(doc => {
-            const note = doc.data();
-            const fileLink = note.fileUrl ? `<a href="${note.fileUrl}" target="_blank">View File</a>` : '';
-            notesHTML += `
-              <div class="note-item" data-note-id="${doc.id}">
-                <span>${note.title} (${note.grade} - ${note.subject}) ${fileLink}</span>
-                <div class="actions">
-                    <button class="edit-button" onclick="editNote('${doc.id}')"><i class="fas fa-edit"></i> Edit</button>
-                    <button onclick="deleteNote('${doc.id}')"><i class="fas fa-trash"></i> Delete</button>
-                </div>
+        const snapshot = await db.collection('notes').orderBy('createdAt', 'desc').get();
+        noteList.innerHTML = ''; // Clear loading state
+
+        if (snapshot.empty) {
+          noteList.innerHTML = '<p class="info-message">No notes found.</p>'; // Styled message
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          const note = doc.data();
+          const fileInfo = note.fileUrl ?
+            `<a href="${note.fileUrl}" target="_blank" class="file-link">
+              <i class="fas ${note.fileType && note.fileType.includes('image') ? 'fa-image' : 'fa-file-pdf'}"></i>
+              ${note.fileName || 'View File'}
+            </a>` :
+            '<span class="no-file">No file attached</span>';
+
+          noteList.innerHTML += `
+            <div class="note-item" data-note-id="${doc.id}">
+              <span><strong>${note.title}</strong> (${note.grade} - ${note.subject}) ${fileInfo}</span>
+              <div class="actions">
+                <button class="edit-button" onclick="editNote('${doc.id}')">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button onclick="deleteNoteConfirmation('${doc.id}')">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
               </div>
-            `;
-          });
-          noteList.innerHTML = notesHTML;
+            </div>
+          `;
         });
+      } catch (error) {
+        console.error("Error loading notes:", error);
+        noteList.innerHTML = '<p class="error-message">Error loading notes. Please refresh.</p>'; // Styled error message
+      }
     }
 
     async function editNote(noteId) {
-      const doc = await db.collection('notes').doc(noteId).get();
-      if (doc.exists) {
+      try {
+        const doc = await db.collection('notes').doc(noteId).get();
+        if (!doc.exists) throw new Error("Note not found!");
+
         const note = doc.data();
         document.getElementById('title').value = note.title;
         document.getElementById('content').value = note.content;
         document.getElementById('subject').value = note.subject;
         document.getElementById('grade').value = note.grade;
 
-        // Store the ID of the note being edited
         editingNoteId = noteId;
+        currentFileUrl = note.fileUrl || null; // Store the current file URL for potential deletion
 
-        // Change button text and display cancel button
         submitButton.innerHTML = '<i class="fas fa-save"></i> Save Changes';
         cancelButton.style.display = 'inline-flex';
 
-        // Clear file input for edit, user can re-upload if needed
-        document.getElementById('fileInput').value = '';
-
-        // Scroll to top of the form for easier editing
+        document.getElementById('fileInput').value = ''; // Clear file input for re-upload option
         noteForm.scrollIntoView({
           behavior: 'smooth'
         });
-      } else {
-        alert('Note not found!');
+      } catch (error) {
+        console.error("Edit error:", error);
+        displayMessage('Error loading note for edit: ' + error.message, 'error'); // Use custom message
       }
     }
 
@@ -709,28 +803,120 @@
     function resetForm() {
       noteForm.reset();
       editingNoteId = null; // Clear editing state
+      currentFileUrl = null; // Clear current file URL
       submitButton.innerHTML = '<i class="fas fa-upload"></i> Upload Note';
       cancelButton.style.display = 'none';
       document.getElementById('fileInput').value = ''; // Clear file input
     }
 
-
-    function deleteNote(noteId) {
-      if (confirm('Are you sure you want to delete this note?')) {
-        db.collection('notes').doc(noteId).delete().then(() => {
-          alert('Note deleted successfully!');
-          loadNotes();
-          // If the deleted note was being edited, reset the form
-          if (editingNoteId === noteId) {
-            resetForm();
-          }
-        }).catch(error => {
-          alert('Error deleting note: ' + error.message);
-        });
+    // Function to handle delete confirmation using a custom modal/message
+    function deleteNoteConfirmation(noteId) {
+      // Instead of confirm(), you'd display a custom modal here
+      // For this example, we'll simulate the user clicking 'OK'
+      if (confirm('Are you sure you want to delete this note? This action cannot be undone.')) {
+        deleteNote(noteId);
       }
     }
-  </script>
 
+    async function deleteNote(noteId) {
+      try {
+        // Fetch the note to get fileUrl before deleting the document
+        const doc = await db.collection('notes').doc(noteId).get();
+        if (doc.exists && doc.data().fileUrl) {
+          const fileUrlToDelete = doc.data().fileUrl;
+          // Extract the path from the full URL for Supabase storage deletion
+          const filePathSegment = fileUrlToDelete.split('/notes/')[1];
+          if (filePathSegment) {
+            await supabaseClient.storage.from('notes').remove([filePathSegment]);
+          }
+        }
+
+        // Delete note from Firestore
+        await db.collection('notes').doc(noteId).delete();
+
+        if (editingNoteId === noteId) resetForm(); // Reset form if the deleted note was being edited
+        loadNotes(); // Reload notes list
+        displayMessage('Note deleted successfully!', 'success');
+      } catch (error) {
+        console.error("Delete error:", error);
+        displayMessage('Error deleting note: ' + error.message, 'error');
+      }
+    }
+
+    // Custom message display function (replaces alert/confirm)
+    function displayMessage(message, type = 'info') {
+      const messageContainer = document.createElement('div');
+      messageContainer.className = `custom-message ${type}`;
+      messageContainer.textContent = message;
+      messageContainer.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.5s forwards, fadeOut 0.5s 4.5s forwards;
+      `;
+
+      if (type === 'success') {
+        messageContainer.style.backgroundColor = '#4CAF50'; /* Green */
+        messageContainer.style.color = '#fff';
+      } else if (type === 'error') {
+        messageContainer.style.backgroundColor = '#F44336'; /* Red */
+        messageContainer.style.color = '#fff';
+      } else {
+        messageContainer.style.backgroundColor = '#2196F3'; /* Blue */
+        messageContainer.style.color = '#fff';
+      }
+
+      document.body.appendChild(messageContainer);
+
+      // Remove the message after a few seconds
+      setTimeout(() => {
+        messageContainer.remove();
+      }, 5000); // Message visible for 5 seconds
+    }
+
+    // Keyframes for custom message
+    const styleSheet = document.styleSheets[0];
+    styleSheet.insertRule(`
+      @keyframes slideIn {
+        from { top: 0px; opacity: 0; }
+        to { top: 20px; opacity: 1; }
+      }
+    `, styleSheet.cssRules.length);
+
+    styleSheet.insertRule(`
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+    `, styleSheet.cssRules.length);
+
+    // Added styles for info and error messages within the note-list
+    styleSheet.insertRule(`
+      p.info-message, p.error-message {
+        color: rgba(255, 255, 255, 0.8);
+        font-style: italic;
+        text-align: center;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+    `, styleSheet.cssRules.length);
+
+    styleSheet.insertRule(`
+      p.error-message {
+        color: #ff8888;
+        background: rgba(255, 0, 0, 0.1);
+      }
+    `, styleSheet.cssRules.length);
+  </script>
 </body>
 
 </html>
