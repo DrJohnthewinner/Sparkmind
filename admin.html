@@ -10,7 +10,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     /* Global Resets */
@@ -23,30 +23,27 @@
     /* Body Styling - Consistent Background and Layout */
     body {
       font-family: 'Poppins', sans-serif;
-      /* A darker, more administrative gradient */
-      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      /* A darker, more administrative gradient with deeper tones */
+      background: linear-gradient(135deg, #1A2980, #26D0CE);
       color: #fff;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      /* Allows content and footer to be aligned */
       align-items: center;
       justify-content: space-between;
-      /* Pushes footer to bottom */
       padding: 20px;
+      background-attachment: fixed; /* Ensures background stays fixed during scroll */
     }
 
     /* Main Content Area - Wrapper for the card */
     #main-content {
       flex-grow: 1;
-      /* Allows it to take up available vertical space */
       display: flex;
       align-items: center;
-      /* Vertically center content */
       justify-content: center;
-      /* Horizontally center content */
       width: 100%;
-      max-width: 1000px;
+      max-width: 900px; /* Adjusted max-width for a slightly more compact feel */
+      padding: 20px; /* Added internal padding to main content */
       animation: fadeIn 1s ease-in-out;
     }
 
@@ -64,14 +61,21 @@
 
     /* Card Styling - Frosted Glass Effect */
     .card {
-      background: rgba(255, 255, 255, 0.15);
-      /* Slightly less opaque for better contrast with text */
-      border-radius: 25px;
-      padding: 40px 30px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      /* Slightly less opaque for a clearer blur */
+      border-radius: 18px;
+      /* Slightly reduced border-radius for modern look */
+      padding: 40px;
+      /* Consistent padding */
+      backdrop-filter: blur(12px);
+      /* Increased blur for more depth */
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      /* Stronger, more diffused shadow */
       text-align: center;
       width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      /* Subtle white border for definition */
     }
 
     .login-section,
@@ -84,13 +88,14 @@
       display: block;
     }
 
-    /* Header Styling - Consistent with other pages */
+    /* Header Styling */
     h2 {
       font-weight: 600;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
+      /* Slightly smaller for better fit */
       margin-bottom: 30px;
       color: #fff;
-      /* White color for consistency */
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
     }
 
     /* Form Element Styling */
@@ -98,249 +103,360 @@
     textarea,
     select {
       width: 100%;
-      margin-bottom: 15px;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      /* Slightly transparent background */
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      /* Lighter border for contrast */
-      border-radius: 8px;
+      margin-bottom: 18px;
+      /* Increased margin-bottom */
+      padding: 14px;
+      /* Increased padding for larger touch area */
+      background: rgba(255, 255, 255, 0.08);
+      /* More transparent background */
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      /* Softer border */
+      border-radius: 10px;
+      /* More rounded corners */
       color: #fff;
-      /* White text for input */
-      font-size: 1rem;
+      font-size: 1.05rem;
+      /* Slightly larger font */
       transition: all 0.3s ease;
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-      /* Lighter placeholder text */
+      color: rgba(255, 255, 255, 0.6);
+      /* Faded but readable placeholder text */
     }
 
     input:focus,
     textarea:focus,
     select:focus {
-      border-color: #00f2fe;
-      /* Highlight color on focus */
+      border-color: #26D0CE;
+      /* Highlight color from gradient on focus */
       outline: none;
-      box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.3);
-      /* Subtle glow */
+      box-shadow: 0 0 0 4px rgba(38, 208, 206, 0.3);
+      /* More prominent glow */
+      background: rgba(255, 255, 255, 0.12); /* Slightly more opaque on focus */
     }
 
-    /* Dropdown arrow color - tricky with transparent background, but often managed by browser defaults */
+    /* Dropdown arrow color */
     select {
       -webkit-appearance: none;
-      /* Remove default arrow */
       -moz-appearance: none;
       appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 1em;
-      padding-right: 35px;
-      /* Make space for the custom arrow */
+      background-position: right 15px center;
+      /* Adjust position */
+      background-size: 1.1em;
+      /* Slightly larger arrow */
+      padding-right: 40px;
+      /* Make more space for the custom arrow */
     }
 
     /* Option colors for select */
     select option {
-      background-color: #1f4037;
-      /* Darker background for options */
+      background-color: #1A2980;
+      /* Consistent dark background for options */
       color: #fff;
     }
 
-    /* Button Styling - Consistent with Grade/Subject buttons */
+    /* Button Styling */
     button {
-      padding: 12px 25px;
+      padding: 14px 30px;
+      /* More generous padding */
       border: none;
       border-radius: 12px;
-      /* More rounded */
-      background: rgba(255, 255, 255, 0.2);
-      /* Transparent background */
+      background: rgba(255, 255, 255, 0.18);
+      /* Slightly more transparent */
       color: white;
       font-weight: 600;
-      /* Bolder */
       cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(4px);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition curve */
+      backdrop-filter: blur(5px);
       /* Frosted button effect */
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 1.05rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle initial shadow */
     }
 
     button i {
-      margin-right: 8px;
+      margin-right: 10px;
+      /* Increased space between icon and text */
     }
 
     button:hover {
       background: #fff;
-      color: #1f4037;
+      color: #1A2980;
       /* Darker color from gradient on hover */
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-4px) scale(1.01);
+      /* More pronounced lift and slight scale */
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      /* Stronger hover shadow */
     }
 
     .logout-button {
-      background: rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.25);
       /* Red with transparency */
       float: right;
-      margin-bottom: 20px;
+      margin-bottom: 25px; /* More space below */
+      padding: 10px 20px; /* Slightly smaller for an "action" button */
+      font-size: 0.95rem;
+      border-radius: 8px; /* Slightly less rounded */
     }
 
     .logout-button:hover {
       background: #ef4444;
       /* Solid red on hover */
       color: white;
-      /* Keep text white on hover */
+      transform: translateY(-2px); /* Subtle lift */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     .error {
-      color: #ffdddd;
-      /* Lighter red for error message */
+      color: #ff8888;
+      /* Softer red for error message */
       text-align: center;
-      margin-top: 10px;
+      margin-top: 15px;
+      /* More space above */
       font-weight: 500;
+      font-size: 0.95rem;
     }
 
     /* Note List Styling */
     .note-list {
-      max-height: 400px;
+      max-height: 450px;
+      /* Increased max height */
       overflow-y: auto;
-      margin-top: 30px;
-      padding-right: 10px;
-      /* Space for scrollbar if present */
+      margin-top: 35px;
+      /* More space above list */
+      padding-right: 12px;
+      /* Space for scrollbar */
+      border-top: 1px solid rgba(255, 255, 255, 0.2); /* Separator line */
+      padding-top: 20px;
+    }
+
+    /* Custom Scrollbar for note-list */
+    .note-list::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .note-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05); /* Very subtle track */
+      border-radius: 10px;
+    }
+
+    .note-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2); /* Semi-transparent thumb */
+      border-radius: 10px;
+    }
+
+    .note-list::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
 
     .note-item {
-      background: rgba(255, 255, 255, 0.9);
-      /* Opaque white for readability of black text */
-      border: 1px solid #e5e7eb;
-      margin-bottom: 15px;
-      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      /* Almost opaque white for readability of black text */
+      border: 1px solid rgba(229, 231, 235, 0.8);
+      margin-bottom: 12px;
+      /* Slightly less margin */
+      padding: 18px 22px;
+      /* More generous padding */
       border-radius: 10px;
       display: flex;
+      flex-wrap: wrap; /* Allows wrapping on smaller screens */
       justify-content: space-between;
       align-items: center;
       color: #333;
-      /* Dark text for content inside note item */
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .note-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     }
 
     .note-item span {
       flex-grow: 1;
-      /* Allow title/grade/subject to take space */
       text-align: left;
-      margin-right: 10px;
-      font-size: 1rem;
+      margin-right: 15px;
+      /* More space */
+      font-size: 1.05rem;
+      /* Slightly larger font */
+      line-height: 1.4;
+      max-width: calc(100% - 180px); /* Adjust max-width to leave space for buttons */
     }
 
     .note-item .actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
+      /* Slightly reduced gap for buttons */
+      margin-top: 5px; /* Margin for when items wrap */
     }
 
     .note-item button {
       background: #ef4444;
-      /* Solid red for delete button */
       color: white;
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-weight: normal;
-      /* Override bold from general button style */
+      padding: 8px 15px;
+      /* Smaller padding for actions */
+      border-radius: 6px;
+      /* Smaller border-radius */
+      font-size: 0.9rem;
+      font-weight: 500;
       backdrop-filter: none;
-      /* No frosted effect for this button */
+      /* No frosted effect */
+      box-shadow: none; /* No shadow for these buttons */
+      transition: background 0.2s ease, transform 0.1s ease;
+      /* Smoother transition */
     }
 
     .note-item button.edit-button {
-        background: #4f46e5; /* Blue for edit button */
+      background: #4f46e5;
     }
 
     .note-item button:hover {
       background: #dc2626;
-      /* Darker red on hover */
-      transform: none;
-      /* No lift effect for this button */
-      box-shadow: none;
+      transform: translateY(-1px); /* Subtle lift on hover */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .note-item button.edit-button:hover {
-        background: #4338ca; /* Darker blue on hover */
+      background: #4338ca;
     }
 
     /* Link inside note item */
     .note-item a {
-      color: #4f46e5;
+      color: #1A2980;
+      /* Darker blue for links for better contrast on white background */
       text-decoration: underline;
       margin-left: 10px;
       font-weight: 500;
+      word-break: break-all; /* Ensures long URLs don't break layout */
     }
 
     .note-item a:hover {
-      color: #3831a2;
+      color: #26D0CE;
     }
 
     /* Footer Styling - Consistent */
     .footer {
-      margin-top: 30px;
+      margin-top: 40px;
+      /* More space above the footer */
       padding: 15px;
       color: rgba(255, 255, 255, 0.7);
       font-size: 0.9rem;
       text-align: center;
       width: 100%;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
+
+    .footer a {
+      color: rgba(255, 255, 255, 0.9); /* Slightly brighter white for footer link */
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #26D0CE;
+    }
+
 
     /* Media Queries for Responsiveness */
     @media (max-width: 768px) {
       .card {
-        padding: 30px 20px;
+        padding: 30px 25px;
       }
 
       h2 {
         font-size: 2rem;
+        margin-bottom: 25px;
       }
 
       button {
-        width: 100%;
-        margin-bottom: 15px;
-        /* Add margin for stacked buttons */
+        padding: 12px 25px;
+        font-size: 1rem;
       }
 
       .logout-button {
-        width: auto;
         float: none;
-        margin-bottom: 20px;
+        display: block;
+        width: fit-content; /* Allow button to size naturally */
+        margin: 0 auto 20px auto; /* Center logout button */
       }
 
       .note-item {
         flex-direction: column;
         align-items: flex-start;
+        padding: 15px;
       }
 
       .note-item span {
         margin-right: 0;
         margin-bottom: 10px;
+        width: 100%; /* Take full width on smaller screens */
+        max-width: 100%; /* Override previous max-width */
       }
+
       .note-item .actions {
         width: 100%;
-        justify-content: flex-end;
+        justify-content: flex-end; /* Align buttons to the right */
+        margin-top: 0;
+      }
+
+      .note-item button {
+        flex-grow: 1; /* Allow buttons to expand if needed */
+        max-width: 48%; /* Max width for two buttons per row */
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
       body {
         padding: 10px;
+      }
+
+      .card {
+        padding: 25px 20px;
       }
 
       h2 {
         font-size: 1.8rem;
       }
 
+      input,
+      textarea,
+      select {
+        padding: 12px;
+        font-size: 0.95rem;
+      }
+
+      select {
+        background-position: right 10px center;
+        background-size: 1em;
+        padding-right: 30px;
+      }
+
       button {
         font-size: 0.9rem;
         padding: 10px 20px;
+      }
+
+      .logout-button {
+        font-size: 0.85rem;
+        padding: 8px 15px;
+      }
+
+      .note-item span {
+        font-size: 0.95rem;
+      }
+
+      .note-item button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
+
+      .note-item a {
+        font-size: 0.9rem;
       }
 
       .footer {
@@ -402,9 +518,9 @@
     </div>
   </div>
 
-<footer class="footer">
-  <p><a href=https://smart-mind1.netlify.app/index.html target="_blank" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">&copy; Sparkminds</a></p>
-</footer>
+  <footer class="footer">
+    <p><a href="https://smart-mind1.netlify.app/index.html" target="_blank" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">&copy; Sparkminds</a></p>
+  </footer>
 
   <script>
     // Firebase Config
@@ -463,7 +579,7 @@
       loadNotes();
     }
 
-    noteForm.addEventListener('submit', async function (e) {
+    noteForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
       const title = document.getElementById('title').value.trim();
@@ -481,13 +597,18 @@
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         const filePath = `notes/${Date.now()}-${file.name}`;
-        const { data, error } = await supabaseClient.storage.from('notes').upload(filePath, file);
+        const {
+          data,
+          error
+        } = await supabaseClient.storage.from('notes').upload(filePath, file);
 
         if (error) {
           alert('File upload error: ' + error.message);
           return;
         }
-        const { publicURL } = supabaseClient.storage.from('notes').getPublicUrl(filePath);
+        const {
+          publicURL
+        } = supabaseClient.storage.from('notes').getPublicUrl(filePath);
         fileUrl = publicURL;
       } else if (editingNoteId) {
         // If no new file is uploaded, keep the existing fileUrl for an update operation
@@ -538,7 +659,7 @@
 
           snapshot.forEach(doc => {
             const note = doc.data();
-            const fileLink = note.fileUrl ? `<a href="${note.fileUrl}" target="_blank" style="color: #4f46e5; text-decoration: underline;">View File</a>` : '';
+            const fileLink = note.fileUrl ? `<a href="${note.fileUrl}" target="_blank">View File</a>` : '';
             notesHTML += `
               <div class="note-item" data-note-id="${doc.id}">
                 <span>${note.title} (${note.grade} - ${note.subject}) ${fileLink}</span>
@@ -554,41 +675,43 @@
     }
 
     async function editNote(noteId) {
-        const doc = await db.collection('notes').doc(noteId).get();
-        if (doc.exists) {
-            const note = doc.data();
-            document.getElementById('title').value = note.title;
-            document.getElementById('content').value = note.content;
-            document.getElementById('subject').value = note.subject;
-            document.getElementById('grade').value = note.grade;
+      const doc = await db.collection('notes').doc(noteId).get();
+      if (doc.exists) {
+        const note = doc.data();
+        document.getElementById('title').value = note.title;
+        document.getElementById('content').value = note.content;
+        document.getElementById('subject').value = note.subject;
+        document.getElementById('grade').value = note.grade;
 
-            // Store the ID of the note being edited
-            editingNoteId = noteId;
+        // Store the ID of the note being edited
+        editingNoteId = noteId;
 
-            // Change button text and display cancel button
-            submitButton.innerHTML = '<i class="fas fa-save"></i> Save Changes';
-            cancelButton.style.display = 'inline-flex';
+        // Change button text and display cancel button
+        submitButton.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+        cancelButton.style.display = 'inline-flex';
 
-            // Clear file input for edit, user can re-upload if needed
-            document.getElementById('fileInput').value = '';
+        // Clear file input for edit, user can re-upload if needed
+        document.getElementById('fileInput').value = '';
 
-            // Scroll to top of the form for easier editing
-            noteForm.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            alert('Note not found!');
-        }
+        // Scroll to top of the form for easier editing
+        noteForm.scrollIntoView({
+          behavior: 'smooth'
+        });
+      } else {
+        alert('Note not found!');
+      }
     }
 
     function cancelEdit() {
-        resetForm();
+      resetForm();
     }
 
     function resetForm() {
-        noteForm.reset();
-        editingNoteId = null; // Clear editing state
-        submitButton.innerHTML = '<i class="fas fa-upload"></i> Upload Note';
-        cancelButton.style.display = 'none';
-        document.getElementById('fileInput').value = ''; // Clear file input
+      noteForm.reset();
+      editingNoteId = null; // Clear editing state
+      submitButton.innerHTML = '<i class="fas fa-upload"></i> Upload Note';
+      cancelButton.style.display = 'none';
+      document.getElementById('fileInput').value = ''; // Clear file input
     }
 
 
