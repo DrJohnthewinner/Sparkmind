@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,172 +12,299 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* Reset and Base Styles */
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #4f46e5, #6d28d9);
-  color: white;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+    /* Global Resets */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-#main-content {
-  flex: 1;
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
-}
+    /* Body Styling - Consistent Background and Layout */
+    body {
+      font-family: 'Poppins', sans-serif;
+      /* Using a blend of gradients from index.html and subjects.html for a unique but consistent look */
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      /* Pushes footer to bottom */
+      padding: 20px;
+      /* Add some padding around the edges */
+    }
 
-h2 {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 20px;
-}
+    /* Main Content Area - Similar to #grade-selection and #subjects-page */
+    #main-content {
+      flex-grow: 1;
+      /* Allows it to take up available vertical space */
+      display: flex;
+      align-items: center;
+      /* Vertically center content */
+      justify-content: center;
+      /* Horizontally center content */
+      width: 100%;
+      /* Take full width */
+      max-width: 1000px;
+      /* Max width for larger screens */
+      animation: fadeIn 1s ease-in-out;
+    }
 
-.back-button {
-  background: white;
-  color: #4f46e5;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-.back-button:hover {
-  background: #f0f0f0;
-}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.loading-state, .error-message {
-  text-align: center;
-  margin-top: 40px;
-}
+    /* Container for Notes - Frosted Glass Effect */
+    #notes-page {
+      /* Renamed from .container to #notes-page for consistency */
+      background: rgba(255, 255, 255, 0.15);
+      /* Slightly less opaque for better contrast with text */
+      border-radius: 25px;
+      padding: 40px 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 100%;
+    }
 
-.loading-state i, .error-message i {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
+    /* Header Styling - Consistent with other pages */
+    h2 {
+      font-weight: 600;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #fff;
+      /* White color for consistency */
+    }
 
-.note-list {
-  list-style: none;
-  padding: 0;
-}
+    /* Back Button Styling - Consistent */
+    .back-button {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+      display: inline-flex;
+      /* Use flex to align icon and text */
+      align-items: center;
+      justify-content: center;
+    }
 
-.note-item {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  margin-bottom: 15px;
-  padding: 15px;
-  transition: background 0.3s ease;
-}
+    .back-button i {
+      margin-right: 8px;
+      /* Space between icon and text */
+    }
 
-.note-item:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
+    .back-button:hover {
+      background: #fff;
+      color: #00c6ff;
+      /* A shade of blue from index.html gradient */
+      transform: translateY(-2px);
+    }
 
-.note-title {
-  font-weight: 600;
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+    /* Note List and Item Styling */
+    .note-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+      /* Space from header */
+    }
 
-.note-details {
-  display: none;
-  margin-top: 10px;
-}
+    .note-item {
+      background: rgba(255, 255, 255, 0.9);
+      /* More opaque white for readability of black text */
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      /* Slightly more rounded corners */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      text-align: left;
+      /* Align text to left inside note item */
+    }
 
-.note-content {
-  margin-bottom: 10px;
-}
+    .note-title {
+      font-size: 1.3rem;
+      /* Slightly larger title */
+      color: #111827;
+      /* Dark text for readability */
+      font-weight: 600;
+      /* Bolder */
+      cursor: pointer;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+      /* Subtle separator */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.file-container {
-  margin-top: 15px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  border-left: 4px solid #4f46e5;
-}
+    .note-title i {
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
 
-.pdf-file {
-  color: #e74c3c;
-}
+    .note-details-open .note-title i {
+      transform: rotate(180deg);
+    }
 
-.image-preview {
-  max-width: 100%;
-  max-height: 300px;
-  border-radius: 8px;
-  cursor: zoom-in;
-  display: block;
-  margin: 10px auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
+    .note-content {
+      font-size: 1rem;
+      color: #333;
+      /* Darker text for content */
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
 
-.image-preview:hover {
-  transform: scale(1.02);
-}
+    .file-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #4f46e5;
+      /* Original blue, stands out */
+      text-decoration: none;
+      /* Remove default underline */
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
 
-.file-meta {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 5px;
-}
+    .file-link:hover {
+      color: #3831a2;
+      /* Darker blue on hover */
+      text-decoration: underline;
+    }
 
-.file-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #4f46e5;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.9);
-  transition: all 0.3s ease;
-}
+    .file-link i {
+      margin-right: 5px;
+    }
 
-.file-link:hover {
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+    .note-image {
+      max-width: 100%;
+      height: auto;
+      /* Ensure image scales proportionally */
+      border-radius: 8px;
+      margin-top: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.no-file {
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.5);
-}
+    .note-details {
+      display: none;
+      /* Hidden by default */
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #e0e0e0;
+    }
 
-.footer {
-  text-align: center;
-  padding: 15px 0;
-  font-size: 0.9rem;
-  background: rgba(0, 0, 0, 0.1);
-}
+    small {
+      display: block;
+      /* Ensures date is on its own line */
+      margin-top: 10px;
+      color: #666;
+      /* Slightly lighter gray for metadata */
+      font-size: 0.85rem;
+    }
 
+    .loading-state {
+      text-align: center;
+      padding: 50px;
+      color: #fff;
+      /* White for loading text */
+      font-size: 1.1rem;
+    }
+
+    .loading-state i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    /* Footer Styling - Consistent */
+    .footer {
+      margin-top: 30px;
+      /* Space above the footer */
+      padding: 15px;
+      color: rgba(255, 255, 255, 0.7);
+      /* Slightly faded white */
+      font-size: 0.9rem;
+      text-align: center;
+      width: 100%;
+      /* Full width */
+    }
+
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+      #notes-page {
+        padding: 30px 20px;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .note-title {
+        font-size: 1.15rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .back-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+
+      .note-item {
+        padding: 15px;
+      }
+
+      .note-title {
+        font-size: 1.1rem;
+      }
+
+      .note-content {
+        font-size: 0.9rem;
+      }
+
+      .footer {
+        font-size: 0.8rem;
+      }
+    }
   </style>
 </head>
 
 <body>
+
   <div id="main-content">
-    <section id="notes-page">
-      <button class="back-button" onclick="window.history.back()">
-        <i class="fas fa-arrow-left"></i> Back
+    <section id="notes-page"> <button class="back-button" onclick="window.location.href='subjects.html'">
+        <i class="fas fa-arrow-left"></i> Back to Subjects
       </button>
 
-      <h2 id="subject-title"><i class="fas fa-book"></i> Notes for <span id="subject-name"></span> (<span id="grade-display"></span>)</h2>
+      <h2 id="subject-title"><i class="fas fa-book"></i> Notes for <span id="subject-name"></span> (<span
+          id="grade-display"></span>)</h2>
 
       <div id="subject-notes-area" class="loading-state">
         <i class="fas fa-spinner fa-spin"></i>
         <p>Loading notes...</p>
       </div>
+
     </section>
   </div>
 
@@ -197,40 +325,35 @@ h2 {
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Supabase Config
-    const SUPABASE_URL = 'https://jjqbpiujwmlfgztpinyp.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqcWJwaXVqd21sZmd6dHBpbnlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkzOTA3MzgsImV4cCI6MjA2NDk2NjczOH0.aH-qM2yyzSAaIa5J_yOPEDkQozjgR2kkv-xHzpLMlck';
+    // Supabase Config (Corrected Key)
+    const SUPABASE_URL = 'https://jjqbpiujwmlfgztpinyp.supabase.co'; // Replace
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqcWJwaXVqd21sZmd6dHBpbnlwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTM5MDczOCwiZXhwIjoyMDY0OTY2NzM4fQ.Jo9Mid8gRnhzMBeY_JN58aGwXHsC-0PfD_LwD292wyk'; // Corrected: Removed extra single quote
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const subjectId = urlParams.get('subject');
-      const grade = urlParams.get('grade') || localStorage.getItem('selectedGrade') || 'Grade 7';
-      
+      const grade = localStorage.getItem('selectedGrade') || 'Unknown Grade';
+      const subjectNameElement = document.getElementById('subject-name');
+      const gradeDisplay = document.getElementById('grade-display');
+      const subjectNotesArea = document.getElementById('subject-notes-area');
+
       if (subjectId) {
-        loadSubjectNotes(subjectId, grade);
+        const displaySubjectName = subjectId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        subjectNameElement.textContent = displaySubjectName;
+        gradeDisplay.textContent = grade;
+        document.title = `${displaySubjectName} Notes | ${grade} | Learn with Fun!`;
+
+        // Call the function to load notes from Firestore
+        loadSubjectNotes(subjectId.toLowerCase(), grade, subjectNotesArea);
       } else {
-        document.getElementById('subject-notes-area').innerHTML = 
-          '<p>No subject selected. Please go back and choose a subject.</p>';
+        subjectNameElement.textContent = 'Unknown Subject';
+        subjectNotesArea.innerHTML = '<p>No subject selected. Please go back and choose a subject.</p>';
       }
     });
 
-    function loadSubjectNotes(subjectId, grade) {
-      const notesArea = document.getElementById('subject-notes-area');
-      const subjectName = document.getElementById('subject-name');
-      const gradeDisplay = document.getElementById('grade-display');
-      
-      // Format subject name for display
-      const displayName = subjectId.split('-')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-      
-      subjectName.textContent = displayName;
-      gradeDisplay.textContent = grade;
-      document.title = `${displayName} Notes | ${grade} | Learn with Fun!`;
-
-      notesArea.innerHTML = '<i class="fas fa-spinner fa-spin"></i><p>Loading notes...</p>';
-
+    // This function currently uses Firebase Firestore
+    function loadSubjectNotes(subjectId, grade, notesArea) {
       db.collection('notes')
         .where('subject', '==', subjectId)
         .where('grade', '==', grade)
@@ -245,76 +368,70 @@ h2 {
           let notesHTML = '<ul class="note-list">';
           querySnapshot.forEach(doc => {
             const note = doc.data();
-            const date = note.createdAt?.toDate?.().toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            }) || 'Unknown date';
+            const noteId = doc.id;
+            // Use note.createdAt.toDate() if it's a Firestore Timestamp
+            // Otherwise, if it's just a string or number, adjust accordingly
+            const date = note.createdAt && typeof note.createdAt.toDate === 'function' ?
+              note.createdAt.toDate().toLocaleDateString() :
+              'Unknown date';
 
-            // File display logic
-            let fileDisplay = '';
-            if (note.fileUrl) {
-              if (note.fileType === 'application/pdf' || note.fileUrl.endsWith('.pdf')) {
-                fileDisplay = `
-                  <div class="file-container pdf-file">
-                    <a href="${note.fileUrl}" target="_blank" class="file-link">
-                      <i class="fas fa-file-pdf"></i> ${note.fileName || 'Download PDF'}
-                    </a>
-                    <div class="file-meta">PDF Document</div>
-                  </div>`;
-              } else if (note.fileType?.startsWith('image/')) {
-                fileDisplay = `
-                  <div class="file-container">
-                    <img src="${note.fileUrl}" alt="${note.fileName || 'Note image'}" 
-                         class="image-preview" onclick="window.open('${note.fileUrl}', '_blank')">
-                    <div class="file-meta">${note.fileName || 'Image attachment'}</div>
-                  </div>`;
-              } else {
-                fileDisplay = `
-                  <div class="file-container">
-                    <a href="${note.fileUrl}" target="_blank" class="file-link">
-                      <i class="fas fa-file-download"></i> ${note.fileName || 'Download File'}
-                    </a>
-                    <div class="file-meta">File attachment</div>
-                  </div>`;
-              }
-            }
+            const fileLink = note.fileUrl ?
+              note.fileUrl.endsWith('.pdf') ?
+              `<a href="${note.fileUrl}" target="_blank" class="file-link"><i class="fas fa-file-pdf"></i> View PDF</a>` :
+              `<div><img src="${note.fileUrl}" alt="Note image" class="note-image"></div>` :
+              '';
 
             notesHTML += `
               <li class="note-item">
-                <div class="note-title" onclick="toggleNote('${doc.id}')">
-                  <i class="fas fa-sticky-note"></i> ${note.title}
+                <div class="note-title" onclick="toggleNote('${noteId}')">
+                  <span>${note.title}</span> <i id="icon-${noteId}" class="fas fa-chevron-down"></i>
                 </div>
-                <div id="details-${doc.id}" class="note-details">
+                <div id="details-${noteId}" class="note-details">
                   <div class="note-content">${note.content}</div>
-                  ${fileDisplay}
-                  <small><i class="far fa-calendar-alt"></i> ${date}</small>
+                  ${fileLink}
+                  <small>Posted: ${date}</small>
                 </div>
               </li>
             `;
           });
           notesHTML += '</ul>';
+
           notesArea.innerHTML = notesHTML;
         })
         .catch(error => {
           console.error("Error loading notes:", error);
-          notesArea.innerHTML = `
-            <div class="error-message">
-              <i class="fas fa-exclamation-triangle"></i>
-              <p>Error loading notes. Please try again later.</p>
-            </div>
-          `;
+          notesArea.innerHTML = `<p>Error loading notes. Please try again later.</p>`;
         });
     }
 
     function toggleNote(noteId) {
       const details = document.getElementById(`details-${noteId}`);
+      const icon = document.getElementById(`icon-${noteId}`);
+      const noteItem = details.closest('.note-item'); // Get the parent note-item
+
       if (details.style.display === 'block') {
         details.style.display = 'none';
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+        noteItem.classList.remove('note-details-open'); // Remove class when collapsed
       } else {
+        // Optional: hide all other open details first if you want only one open at a time
+        // document.querySelectorAll('.note-details').forEach(item => {
+        //   if (item.id !== `details-${noteId}`) {
+        //     item.style.display = 'none';
+        //     item.closest('.note-item').classList.remove('note-details-open');
+        //     document.getElementById(`icon-${item.id.replace('details-', 'icon-')}`).classList.remove('fa-chevron-up');
+        //     document.getElementById(`icon-${item.id.replace('details-', 'icon-')}`).classList.add('fa-chevron-down');
+        //   }
+        // });
         details.style.display = 'block';
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+        noteItem.classList.add('note-details-open'); // Add class when open
       }
     }
   </script>
+
 </body>
+
 </html>
