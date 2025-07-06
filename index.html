@@ -228,13 +228,80 @@
 
   <script src="script.js"></script>
   <footer class="footer">
-  <p>
-    <a href="https://smart-mind1.netlify.app/admin.html" target="_blank" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">&copy; Sparkminds</a>
-  </p>
-  <p style="margin-top: 10px;">
-    For schemes and exams <a href="https://junior-sch.netlify.app" target="_blank" style="color: #fff; text-decoration: underline;">click here</a>
-  </p>
-  </footer>
+  <div class="footer-container">
+    <p>
+      <a href="https://smart-mind1.netlify.app/admin.html" target="_blank" class="footer-link">&copy; Sparkminds</a>
+    </p>
+    <p>
+      For schemes and exams <a href="https://junior-sch.netlify.app" target="_blank" class="footer-button">Click Here</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    width: 100%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border-radius: 20px 20px 0 0;
+    animation: slideUp 1s ease-in-out;
+  }
+
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .footer-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .footer-link:hover {
+    color: #fc5c7d;
+  }
+
+  .footer-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+  .footer-button:hover {
+    background: #fff;
+    color: #6a82fb;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(106, 130, 251, 0.5);
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+</style>
   
 </body>
 
