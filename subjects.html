@@ -2,111 +2,307 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Select Subject | Learn with Fun!</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Learning</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6a82fb, #fc5c7d);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      background-attachment: fixed;
+    }
+
+    /* Main Content Area */
+    #main-content {
+      animation: fadeIn 1s ease-in-out;
+      width: 100%;
+      max-width: 500px;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Grade Selection Card */
+    #grade-selection {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 25px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Reinstated/Adjusted styles for the Font Awesome icon within H1 */
+    h1 .fas {
+        font-size: 2.5rem; /* Adjust icon size relative to text */
+        /* Removed margin-right as it's handled by gap on the h1 flex container */
+    }
+
+    /* Removed styles for the logo image within the H1 */
+    /* h1 img.logo {
+      height: 2.5rem;
+      margin-right: 10px;
+      vertical-align: middle;
+    } */
+
+
+    /* Inspiration Message */
+    .inspiration-message {
+      font-size: 1.1rem;
+      margin-bottom: 35px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      font-style: italic;
+      line-height: 1.7;
+      color: #fff;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.15);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Grade List Buttons */
+    .grade-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .grade-list button {
+      padding: 18px 35px;
+      border: none;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .grade-list button:hover {
+      background: #fff;
+      color: #6a82fb;
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(106, 130, 251, 0.5);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 30px;
+      padding: 15px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+      text-align: center;
+      width: 100%;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 550px) {
+      #grade-selection {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        gap: 10px;
+      }
+
+      h1 .fas {
+        font-size: 2rem;
+      }
+
+      /* Removed responsive styles for logo */
+      /* h1 img.logo {
+        height: 2rem;
+        margin-right: 8px;
+      } */
+
+      .inspiration-message {
+        font-size: 1rem;
+        padding: 15px;
+      }
+
+      .grade-list button {
+        font-size: 1.1rem;
+        padding: 15px 25px;
+      }
+    }
+
+    @media (max-width: 380px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+        h1 .fas {
+            font-size: 1.6rem;
+        }
+        /* Removed responsive styles for logo */
+        /* h1 img.logo {
+            height: 1.6rem;
+            margin-right: 6px;
+        } */
+        .inspiration-message {
+            font-size: 0.9rem;
+        }
+        .grade-list button {
+            font-size: 1rem;
+            padding: 12px 20px;
+        }
+    }
+  </style>
 </head>
 
-<body class="subjects-body">
-  <header>
-    <a href="index.html" class="logo"><i class="fas fa-brain"></i> Smart Mind</a>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="subjects.html">Subjects</a></li>
-        <li><a href="note.html">Notes</a></li>
-        <li><a href="admin.html">Admin</a></li>
-      </ul>
-    </nav>
-    <div class="auth-buttons">
-      <button onclick="loginWithGoogle()">Login</button>
-    </div>
-  </header>
-
+<body>
   <div id="main-content">
-    <section class="container">
-      <h1>Select Your Subject</h1>
-      <p id="grade-display">For Grade 8</p>
-      <div class="subject-buttons">
-        <button onclick="navigateToSubjectPage('mathematics')"><i class="fas fa-calculator"></i> Mathematics</button>
-        <button onclick="navigateToSubjectPage('english')"><i class="fas fa-book-open"></i> English</button>
-        <button onclick="navigateToSubjectPage('kiswahili')"><i class="fas fa-comments"></i> Kiswahili</button>
-        <button onclick="navigateToSubjectPage('integrated-science')"><i class="fas fa-flask"></i> Integrated Science</button>
-        <button onclick="navigateToSubjectPage('social-studies')"><i class="fas fa-globe-americas"></i> Social Studies</button>
-        <button onclick="navigateToSubjectPage('cre')"><i class="fas fa-church"></i> Christian Religious Education</button>
-        <button onclick="navigateToSubjectPage('pre-technical')"><i class="fas fa-cogs"></i> Pre-Technical</button>
-        <button onclick="navigateToSubjectPage('agriculture-nutrition')"><i class="fas fa-seedling"></i> Agriculture and Nutrition</button>
-        <button onclick="navigateToSubjectPage('creative-arts-sports')"><i class="fas fa-palette"></i> Creative Arts and Sports</button>
+    <section id="grade-selection">
+      <h1><i class="fas fa-graduation-cap"></i> Select Your Grade</h1>
+      <div class="inspiration-message">
+        "Every step you take in learning builds a stronger future. Embrace the journey of discovery!"
       </div>
-      <button onclick="goBackToGradesPage()" class="back-button"><i class="fas fa-arrow-left"></i> Back to Grades</button>
+      <div class="grade-list">
+        <button onclick="selectGrade('Grade 7')">Grade 7</button>
+        <button onclick="selectGrade('Grade 8')">Grade 8</button>
+        <button onclick="selectGrade('Grade 9')">Grade 9</button>
+      </div>
     </section>
   </div>
 
-  <footer class="footer">
-    <div class="footer-container">
-      <p>&copy; 2024 Smart Mind. All rights reserved.</p>
-      <a href="#" class="footer-link">Privacy Policy</a>
-      <a href="#" class="footer-link">Terms of Service</a>
-    </div>
-    <button class="footer-button" onclick="window.location.href='index.html'">Go to Home</button>
-  </footer>
 
   <script src="script.js"></script>
-  <script>
-    // Firebase (for login/logout) configuration - adjust if needed
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+  <footer class="footer">
+  <div class="footer-container">
+    <p>
+      <a href="https://smart-mind1.netlify.app/admin.html" target="_blank" class="footer-link">&copy; Sparkminds</a>
+    </p>
+    <p>
+      For schemes and exams <a href="https://junior-sch.netlify.app" target="_blank" class="footer-button">Click Here</a>
+    </p>
+  </div>
+</footer>
 
-    auth.onAuthStateChanged(user => {
-      const loginButton = document.querySelector('.auth-buttons button');
-      if (user) {
-        loginButton.textContent = 'Logout';
-        loginButton.onclick = logout;
-      } else {
-        loginButton.textContent = 'Login';
-        loginButton.onclick = loginWithGoogle;
-      }
-    });
+<style>
+  .footer {
+    width: 100%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border-radius: 20px 20px 0 0;
+    animation: slideUp 1s ease-in-out;
+  }
 
-    async function loginWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        await auth.signInWithPopup(provider);
-        // Page will reload, or you can handle redirect based on requirements
-      } catch (error) {
-        console.error("Error during Google login:", error);
-      }
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .footer-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .footer-link:hover {
+    color: #fc5c7d;
+  }
+
+  .footer-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+  .footer-button:hover {
+    background: #fff;
+    color: #6a82fb;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(106, 130, 251, 0.5);
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
     }
-
-    async function logout() {
-      try {
-        await auth.signOut();
-        // Page will reload, or you can handle redirect based on requirements
-      } catch (error) {
-        console.error("Error logging out:", error);
-      }
+    to {
+      transform: translateY(0);
+      opacity: 1;
     }
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const grade = localStorage.getItem('selectedGrade') || 'Unknown Grade';
-      document.getElementById('grade-display').textContent = `For ${grade}`;
-    });
-  </script>
+  }
+</style>
+  
 </body>
 
 </html>
