@@ -2,655 +2,930 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | Smart Mind</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | Smart Mind</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        /* Global Resets */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <style>
+    /* Global Resets */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        /* Body Styling - Consistent Background and Layout */
-        body {
-            font-family: 'Poppins', sans-serif;
-            /* A darker, subtle blue gradient for the background */
-            background: linear-gradient(135deg, #1A2980, #26D0CE);
-            color: #ecf0f1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    /* Body Styling - Consistent Background and Layout */
+    body {
+      font-family: 'Poppins', sans-serif;
+      /* A darker, more administrative gradient with deeper tones */
+      background: linear-gradient(135deg, #1A2980, #26D0CE);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      background-attachment: fixed;
+      /* Ensures background stays fixed during scroll */
+    }
 
-        /* Admin Container - Glassmorphism Effect */
-        #admin-container {
-            background: rgba(255, 255, 255, 0.1);
-            /* Slightly transparent white background */
-            backdrop-filter: blur(10px);
-            /* Blur effect for glassmorphism */
-            -webkit-backdrop-filter: blur(10px);
-            /* Safari support */
-            border-radius: 15px;
-            /* Rounded corners */
-            padding: 30px;
-            /* Inner spacing */
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            /* Subtle shadow for depth */
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            /* Light border */
-            width: 100%;
-            max-width: 600px;
-            /* Max width for content */
-            text-align: center;
-            /* Center text elements */
-            animation: fadeIn 0.8s ease-out forwards;
-        }
+    /* Main Content Area - Wrapper for the card */
+    #main-content {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+      /* Adjusted max-width for a slightly more compact feel */
+      padding: 20px;
+      /* Added internal padding to main content */
+      animation: fadeIn 1s ease-in-out;
+    }
 
-        /* Fade-in Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* Headings */
-        h1,
-        h2 {
-            color: #fff;
-            margin-bottom: 25px;
-            font-weight: 600;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
+    /* Card Styling - Frosted Glass Effect */
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      /* Slightly less opaque for a clearer blur */
+      border-radius: 18px;
+      /* Slightly reduced border-radius for modern look */
+      padding: 40px;
+      /* Consistent padding */
+      backdrop-filter: blur(12px);
+      /* Increased blur for more depth */
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      /* Stronger, more diffused shadow */
+      text-align: center;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      /* Subtle white border for definition */
+    }
 
-        h1 {
-            font-size: 2.5em;
-        }
+    .login-section,
+    .dashboard-section {
+      display: none;
+    }
 
-        h2 {
-            font-size: 1.8em;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    .login-section.active,
+    .dashboard-section.active {
+      display: block;
+    }
 
-        /* Form Group Styling */
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
+    /* Header Styling */
+    h2 {
+      font-weight: 600;
+      font-size: 2.2rem;
+      /* Slightly smaller for better fit */
+      margin-bottom: 30px;
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      /* Subtle text shadow */
+    }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #e0e0e0;
-        }
+    /* Form Element Styling */
+    input,
+    textarea,
+    select {
+      width: 100%;
+      margin-bottom: 18px;
+      /* Increased margin-bottom */
+      padding: 14px;
+      /* Increased padding for larger touch area */
+      background: rgba(255, 255, 255, 0.08);
+      /* More transparent background */
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      /* Softer border */
+      border-radius: 10px;
+      /* More rounded corners */
+      color: #fff;
+      font-size: 1.05rem;
+      /* Slightly larger font */
+      transition: all 0.3s ease;
+    }
 
-        .form-group input[type="email"],
-        .form-group input[type="password"],
-        .form-group input[type="text"],
-        .form-group select,
-        .form-group textarea,
-        .form-group input[type="file"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            outline: none;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+      /* Faded but readable placeholder text */
+    }
 
-        .form-group input[type="email"]::placeholder,
-        .form-group input[type="password"]::placeholder,
-        .form-group input[type="text"]::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #26D0CE;
+      /* Highlight color from gradient on focus */
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(38, 208, 206, 0.3);
+      /* More prominent glow */
+      background: rgba(255, 255, 255, 0.12);
+      /* Slightly more opaque on focus */
+    }
 
-        .form-group input[type="email"]:focus,
-        .form-group input[type="password"]:focus,
-        .form-group input[type="text"]:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
+    /* Dropdown arrow color */
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      /* Adjust position */
+      background-size: 1.1em;
+      /* Slightly larger arrow */
+      padding-right: 40px;
+      /* Make more space for the custom arrow */
+    }
 
-        /* Specific style for file input for better visual consistency */
-        .form-group input[type="file"] {
-            padding-top: 10px;
-            /* Adjust padding for file input */
-        }
+    /* Option colors for select */
+    select option {
+      background-color: #1A2980;
+      /* Consistent dark background for options */
+      color: #fff;
+    }
 
-        /* Button Styling */
-        .auth-button,
-        .action-button {
-            background: linear-gradient(90deg, #6a82fb, #26d0ce);
-            color: #fff;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            margin: 5px;
-        }
+    /* Button Styling */
+    button {
+      padding: 14px 30px;
+      /* More generous padding */
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.18);
+      /* Slightly more transparent */
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      /* Smoother transition curve */
+      backdrop-filter: blur(5px);
+      /* Frosted button effect */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      /* Subtle initial shadow */
+    }
 
-        .auth-button:hover,
-        .action-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(90deg, #26d0ce, #6a82fb);
-        }
+    button i {
+      margin-right: 10px;
+      /* Increased space between icon and text */
+    }
 
-        /* Upload Section - Initially Hidden */
-        #upload-section {
-            display: none;
-            /* JavaScript will toggle this */
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    button:hover {
+      background: #fff;
+      color: #1A2980;
+      /* Darker color from gradient on hover */
+      transform: translateY(-4px) scale(1.01);
+      /* More pronounced lift and slight scale */
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      /* Stronger hover shadow */
+    }
 
-        /* File Upload Status */
-        #file-upload-status {
-            margin-top: 10px;
-            font-size: 0.9em;
-            color: #c0c0c0;
-            min-height: 20px;
-        }
+    .logout-button {
+      background: rgba(239, 68, 68, 0.25);
+      /* Red with transparency */
+      float: right;
+      margin-bottom: 25px;
+      /* More space below */
+      padding: 10px 20px;
+      /* Slightly smaller for an "action" button */
+      font-size: 0.95rem;
+      border-radius: 8px;
+      /* Slightly less rounded */
+    }
 
-        /* Loading Overlay */
-        #loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            color: #fff;
-            font-size: 1.5rem;
-        }
+    .logout-button:hover {
+      background: #ef4444;
+      /* Solid red on hover */
+      color: white;
+      transform: translateY(-2px);
+      /* Subtle lift */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
 
-        .spinner {
-            border: 8px solid rgba(255, 255, 255, 0.3);
-            border-top: 8px solid #26D0CE;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
+    .error {
+      color: #ff8888;
+      /* Softer red for error message */
+      text-align: center;
+      margin-top: 15px;
+      /* More space above */
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+    /* Note List Styling */
+    .note-list {
+      max-height: 450px;
+      /* Increased max height */
+      overflow-y: auto;
+      margin-top: 35px;
+      /* More space above list */
+      padding-right: 12px;
+      /* Space for scrollbar */
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      /* Separator line */
+      padding-top: 20px;
+    }
 
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+    /* Custom Scrollbar for note-list */
+    .note-list::-webkit-scrollbar {
+      width: 8px;
+    }
 
-        #upload-progress {
-            margin-top: 10px;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
+    .note-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      /* Very subtle track */
+      border-radius: 10px;
+    }
+
+    .note-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      /* Semi-transparent thumb */
+      border-radius: 10px;
+    }
+
+    .note-list::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .note-item {
+      background: rgba(255, 255, 255, 0.95);
+      /* Almost opaque white for readability of black text */
+      border: 1px solid rgba(229, 231, 235, 0.8);
+      margin-bottom: 12px;
+      /* Slightly less margin */
+      padding: 18px 22px;
+      /* More generous padding */
+      border-radius: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      /* Allows wrapping on smaller screens */
+      justify-content: space-between;
+      align-items: center;
+      color: #333;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .note-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .note-item span {
+      flex-grow: 1;
+      text-align: left;
+      margin-right: 15px;
+      /* More space */
+      font-size: 1.05rem;
+      /* Slightly larger font */
+      line-height: 1.4;
+      max-width: calc(100% - 180px);
+      /* Adjust max-width to leave space for buttons */
+    }
+
+    .note-item .actions {
+      display: flex;
+      gap: 8px;
+      /* Slightly reduced gap for buttons */
+      margin-top: 5px;
+      /* Margin for when items wrap */
+    }
+
+    .note-item button {
+      background: #ef4444;
+      color: white;
+      padding: 8px 15px;
+      /* Smaller padding for actions */
+      border-radius: 6px;
+      /* Smaller border-radius */
+      font-size: 0.9rem;
+      font-weight: 500;
+      backdrop-filter: none;
+      /* No frosted effect */
+      box-shadow: none;
+      /* No shadow for these buttons */
+      transition: background 0.2s ease, transform 0.1s ease;
+      /* Smoother transition */
+    }
+
+    .note-item button.edit-button {
+      background: #4f46e5;
+    }
+
+    .note-item button:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+      /* Subtle lift on hover */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .note-item button.edit-button:hover {
+      background: #4338ca;
+    }
+
+    /* Link inside note item */
+    .note-item a {
+      color: #1A2980;
+      /* Darker blue for links for better contrast on white background */
+      text-decoration: underline;
+      margin-left: 10px;
+      font-weight: 500;
+      word-break: break-all;
+      /* Ensures long URLs don't break layout */
+    }
+
+    .note-item a:hover {
+      color: #26D0CE;
+    }
+
+    /* Footer Styling - Consistent */
+    .footer {
+      margin-top: 40px;
+      /* More space above the footer */
+      padding: 15px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      text-align: center;
+      width: 100%;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer a {
+      color: rgba(255, 255, 255, 0.9);
+      /* Slightly brighter white for footer link */
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #26D0CE;
+    }
 
 
-        /* Custom Alert Message Styling */
-        .custom-message {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: 500;
-            z-index: 1001;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-out 4.5s forwards;
-            min-width: 250px;
-            text-align: center;
-        }
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+      .card {
+        padding: 30px 25px;
+      }
 
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            #admin-container {
-                padding: 25px;
-            }
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 25px;
+      }
 
-            h1 {
-                font-size: 2.2em;
-            }
+      button {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
 
-            h2 {
-                font-size: 1.6em;
-            }
+      .logout-button {
+        float: none;
+        display: block;
+        width: fit-content;
+        /* Allow button to size naturally */
+        margin: 0 auto 20px auto;
+        /* Center logout button */
+      }
 
-            .form-group input,
-            .form-group select,
-            .form-group textarea {
-                padding: 10px;
-                font-size: 0.95rem;
-            }
+      .note-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+      }
 
-            .auth-button,
-            .action-button {
-                padding: 10px 20px;
-                font-size: 1em;
-            }
-        }
+      .note-item span {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+        /* Take full width on smaller screens */
+        max-width: 100%;
+        /* Override previous max-width */
+      }
 
-        @media (max-width: 480px) {
-            #admin-container {
-                padding: 20px 15px;
-            }
+      .note-item .actions {
+        width: 100%;
+        justify-content: flex-end;
+        /* Align buttons to the right */
+        margin-top: 0;
+      }
 
-            h1 {
-                font-size: 2em;
-            }
+      .note-item button {
+        flex-grow: 1;
+        /* Allow buttons to expand if needed */
+        max-width: 48%;
+        /* Max width for two buttons per row */
+      }
+    }
 
-            h2 {
-                font-size: 1.4em;
-            }
+    @media (max-width: 500px) {
+      body {
+        padding: 10px;
+      }
 
-            .custom-message {
-                padding: 12px 20px;
-                font-size: 1em;
-                width: 90%;
-            }
-        }
-    </style>
+      .card {
+        padding: 25px 20px;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      input,
+      textarea,
+      select {
+        padding: 12px;
+        font-size: 0.95rem;
+      }
+
+      select {
+        background-position: right 10px center;
+        background-size: 1em;
+        padding-right: 30px;
+      }
+
+      button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+      }
+
+      .logout-button {
+        font-size: 0.85rem;
+        padding: 8px 15px;
+      }
+
+      .note-item span {
+        font-size: 0.95rem;
+      }
+
+      .note-item button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
+
+      .note-item a {
+        font-size: 0.9rem;
+      }
+
+      .footer {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <div id="loading-overlay">
-        <div class="spinner"></div>
-        <p>Uploading...</p>
-        <p id="upload-progress">0%</p>
+
+  <div id="main-content">
+    <div class="container">
+
+      <div class="card login-section active" id="login-section">
+        <h2>Admin Login</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <div class="error" id="login-error"></div>
+      </div>
+
+      <div class="card dashboard-section" id="dashboard-section">
+        <button class="logout-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <h2>Admin Dashboard</h2>
+
+        <form id="note-form">
+          <input type="text" id="title" placeholder="Note Title" required>
+          <input type="text" id="topic" placeholder="Note Topic (e.g., Algebra, Photosynthesis)" required>
+          <textarea id="content" rows="4" placeholder="Note Content" required></textarea>
+
+          <select id="subject" required>
+            <option value="" disabled selected>Select Subject</option>
+            <option value="mathematics">Mathematics</option>
+            <option value="english">English</option>
+            <option value="kiswahili">Kiswahili</option>
+            <option value="integrated-science">Integrated Science</option>
+            <option value="social-studies">Social Studies</option>
+            <option value="cre">Christian Religious Education</option>
+            <option value="pre-technical">Pre-Technical</option>
+            <option value="agriculture-nutrition">Agriculture and Nutrition</option>
+            <option value="creative-arts-sports">Creative Arts and Sports</option>
+          </select>
+
+          <select id="grade" required>
+            <option value="" disabled selected>Select Grade</option>
+            <option value="Grade 7">Grade 7</option>
+            <option value="Grade 8">Grade 8</option>
+            <option value="Grade 9">Grade 9</option>
+          </select>
+
+          <input type="file" id="fileInput" accept="application/pdf,image/*">
+
+          <button type="submit" id="submit-button"><i class="fas fa-upload"></i> Upload Note</button>
+          <button type="button" id="cancel-edit-button" style="display: none;" onclick="cancelEdit()">Cancel Edit</button>
+        </form>
+
+        <div class="note-list" id="note-list"></div>
+      </div>
     </div>
+  </div>
 
-    <div id="admin-container">
-        <h1>Admin Panel</h1>
+  <footer class="footer">
+    <p><a href="https://smart-mind1.netlify.app/index.html" target="_blank" style="color: rgba(255, 255, 255, 0.7); text-decoration: none;">&copy; Sparkminds</a></p>
+  </footer>
 
-        <div id="login-section">
-            <h2>Login</h2>
-            <div class="form-group">
-                <label for="adminEmail">Email:</label>
-                <input type="email" id="adminEmail" placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="adminPassword">Password:</label>
-                <input type="password" id="adminPassword" placeholder="Enter your password">
-            </div>
-            <button class="auth-button" onclick="loginAdmin()">Login</button>
-            <button class="auth-button" onclick="logoutAdmin()" style="display:none;" id="logoutButton">Logout</button>
-        </div>
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyABCpgwLNKvUxdYtnz5HBHH9IlnDZgEbUo",
+      authDomain: "creative-learning-f2252.firebaseapp.com",
+      projectId: "creative-learning-f2252",
+      storageBucket: "creative-learning-f2252.appspot.com",
+      messagingSenderId: "451756350336",
+      appId: "1:451756350336:web:19b9255b8834a01f4cff65"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-        <div id="upload-section">
-            <h2>Upload New Note</h2>
-            <div class="form-group">
-                <label for="noteSubject">Subject:</label>
-                <select id="noteSubject">
-                    </select>
-            </div>
-            <div class="form-group">
-                <label for="noteGrade">Grade:</label>
-                <select id="noteGrade">
-                    <option value="Grade 1">Grade 1</option>
-                    <option value="Grade 2">Grade 2</option>
-                    <option value="Grade 3">Grade 3</option>
-                    <option value="Grade 4">Grade 4</option>
-                    <option value="Grade 5">Grade 5</option>
-                    <option value="Grade 6">Grade 6</option>
-                    <option value="Grade 7">Grade 7</option>
-                    <option value="Grade 8">Grade 8</option>
-                    <option value="Form 1">Form 1</option>
-                    <option value="Form 2">Form 2</option>
-                    <option value="Form 3">Form 3</option>
-                    <option value="Form 4">Form 4</option>
-                    <option value="Form 5">Form 5</option>
-                    <option value="Form 6">Form 6</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="noteTitle">Title:</label>
-                <input type="text" id="noteTitle" placeholder="e.g., Introduction to Algebra">
-            </div>
-            <div class="form-group">
-                <label for="noteTopic">Topic:</label>
-                <input type="text" id="noteTopic" placeholder="e.g., Equations, Photosynthesis, World War I">
-            </div>
-            <div class="form-group">
-                <label for="noteContent">Content:</label>
-                <textarea id="noteContent" rows="8" placeholder="Type your note content here..."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="noteFile">Attach File (PDF/Image):</label>
-                <input type="file" id="noteFile" accept=".pdf,image/*">
-                <div id="file-upload-status"></div>
-            </div>
-            <button class="action-button" onclick="uploadNote()">Upload Note</button>
-        </div>
-    </div>
+    // Supabase Config
+    const SUPABASE_URL = 'https://jjqbpiujwmlfgztpinyp.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqcWJwaXVqd21sZmd6dHBpbnlwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTM5MDczOCwiZXhwIjoyMDY0OTY2NzM4fQ.Jo9Mid8gRnhzMBeY_JN58aGwXHsC-0PfD_LwD292wyk';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    <script>
-        // Firebase Configuration (from your provided files)
-        const firebaseConfig = {
-            apiKey: "AIzaSyABCpgwLNKvUxdYtnz5HBHH9IlnDZgEbUo",
-            authDomain: "creative-learning-f2252.firebaseapp.com",
-            projectId: "creative-learning-f2252",
-            storageBucket: "creative-learning-f2252.appspot.com",
-            messagingSenderId: "451756350336",
-            appId: "1:451756350336:web:19b9255b8834a01f4cff65"
-        };
-        firebase.initializeApp(firebaseConfig);
+    // DOM Elements
+    const loginSection = document.getElementById('login-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    const loginError = document.getElementById('login-error');
+    const noteForm = document.getElementById('note-form');
+    const submitButton = document.getElementById('submit-button');
+    const cancelButton = document.getElementById('cancel-edit-button');
+    const noteList = document.getElementById('note-list'); // Ensure this element is correctly selected
+    const topicInput = document.getElementById('topic'); // NEW: Get topic input
 
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const storage = firebase.storage();
+    let editingNoteId = null;
+    let currentFileUrl = null; // To store the file URL of the note being edited
 
-        // Supabase Configuration (from your provided files - replace with your actual key)
-        const SUPABASE_URL = 'https://jjqbpiujwmlfgztpinyp.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Ensure this is your actual public key
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // Auth State Listener
+    auth.onAuthStateChanged(user => {
+      if (user) showDashboard();
+      else showLogin();
+    });
 
+    // Authentication Functions
+    function login() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
 
-        // UI Elements
-        const loginSection = document.getElementById('login-section');
-        const uploadSection = document.getElementById('upload-section');
-        const logoutButton = document.getElementById('logoutButton');
-        const adminEmailInput = document.getElementById('adminEmail');
-        const adminPasswordInput = document.getElementById('adminPassword');
-        const noteSubjectSelect = document.getElementById('noteSubject');
-        const noteGradeSelect = document.getElementById('noteGrade');
-        const noteTitleInput = document.getElementById('noteTitle');
-        const noteTopicInput = document.getElementById('noteTopic'); // New: Get topic input
-        const noteContentTextarea = document.getElementById('noteContent');
-        const noteFileInput = document.getElementById('noteFile');
-        const fileUploadStatus = document.getElementById('file-upload-status');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        const uploadProgress = document.getElementById('upload-progress');
-
-
-        // --- Authentication Logic ---
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // User is signed in
-                loginSection.style.display = 'none';
-                uploadSection.style.display = 'block';
-                logoutButton.style.display = 'inline-block';
-                loadSubjects(); // Load subjects when logged in
-            } else {
-                // User is signed out
-                loginSection.style.display = 'block';
-                uploadSection.style.display = 'none';
-                logoutButton.style.display = 'none';
-                clearForm(); // Clear form when logged out
-            }
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => showDashboard())
+        .catch(error => {
+          loginError.textContent = error.message;
+          setTimeout(() => loginError.textContent = '', 5000); // Clear error after 5 seconds
         });
+    }
 
-        function loginAdmin() {
-            const email = adminEmailInput.value;
-            const password = adminPasswordInput.value;
+    function logout() {
+      auth.signOut()
+        .then(() => showLogin())
+        .catch(error => console.error("Logout error:", error)); // Log error, but still transition to login
+    }
 
-            if (!email || !password) {
-                alert('Please enter both email and password.');
-                return;
+    function showLogin() {
+      loginSection.classList.add('active');
+      dashboardSection.classList.remove('active');
+      // Clear input fields when showing login
+      document.getElementById('email').value = '';
+      document.getElementById('password').value = '';
+    }
+
+    function showDashboard() {
+      loginSection.classList.remove('active');
+      dashboardSection.classList.add('active');
+      loadNotes(); // Load notes when dashboard is shown
+    }
+
+    // Note Management Functions
+    noteForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('title').value.trim();
+      const topic = document.getElementById('topic').value.trim(); // NEW: Get topic value
+      const content = document.getElementById('content').value.trim();
+      const subject = document.getElementById('subject').value;
+      const grade = document.getElementById('grade').value;
+      const fileInput = document.getElementById('fileInput');
+
+      // Basic validation for required fields
+      if (!title || !topic || !content || !subject || !grade) { // NEW: Validate topic
+        // Replace alert with a custom message box or display it in the error div
+        displayMessage('Please fill all required fields (Title, Topic, Content, Subject, Grade).', 'error');
+        return;
+      }
+
+      const noteData = {
+        title,
+        topic, // NEW: Add topic to noteData
+        content,
+        subject,
+        grade,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp() // Always update timestamp on save
+      };
+
+      // Handle file upload if a new file is selected
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${file.name}`; // Unique file name
+        const filePath = `notes/${fileName}`;
+
+        try {
+          // If editing and a new file is uploaded, delete the old one from Supabase Storage
+          if (editingNoteId && currentFileUrl) {
+            // Extract the path from the full URL. Supabase URLs often follow a pattern like
+            // https://[PROJECT_ID].supabase.co/storage/v1/object/public/bucket_name/path/to/file.ext
+            // We need 'path/to/file.ext'
+            const oldFilePathSegment = currentFileUrl.split('/notes/')[1];
+            if (oldFilePathSegment) {
+                await supabaseClient.storage.from('notes').remove([oldFilePathSegment]);
             }
+          }
 
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Signed in
-                    showCustomMessage('Logged in successfully!', 'success');
-                    // UI handled by onAuthStateChanged
-                })
-                .catch((error) => {
-                    const errorMessage = error.message;
-                    showCustomMessage(`Login failed: ${errorMessage}`, 'error');
-                    console.error("Login Error:", error);
-                });
-        }
+          // Upload the new file
+          const {
+            error: uploadError
+          } = await supabaseClient.storage
+            .from('notes')
+            .upload(filePath, file);
 
-        function logoutAdmin() {
-            auth.signOut().then(() => {
-                showCustomMessage('Logged out successfully!', 'success');
-                // UI handled by onAuthStateChanged
-            }).catch((error) => {
-                console.error("Logout Error:", error);
-                showCustomMessage('Error logging out.', 'error');
-            });
-        }
+          if (uploadError) throw uploadError;
 
-        // --- Subject Loading Logic ---
-        async function loadSubjects() {
-            noteSubjectSelect.innerHTML = '<option value="">Loading subjects...</option>';
-            try {
-                // Try fetching from Firestore first
-                const firestoreSnapshot = await db.collection('subjects').orderBy('name').get();
-                if (!firestoreSnapshot.empty) {
-                    populateSubjectSelect(firestoreSnapshot.docs.map(doc => doc.data()));
-                } else {
-                    // Fallback to Supabase if Firestore is empty or fails
-                    console.warn("Firestore subjects empty or failed, trying Supabase.");
-                    await loadSubjectsFromSupabase();
-                }
-            } catch (firestoreError) {
-                console.error("Error loading subjects from Firestore:", firestoreError);
-                // Fallback to Supabase on Firestore error
-                await loadSubjectsFromSupabase();
+          // Get the public URL for the newly uploaded file
+          const {
+            data: {
+              publicUrl
             }
+          } = supabaseClient.storage
+            .from('notes')
+            .getPublicUrl(filePath);
+
+          noteData.fileUrl = publicUrl;
+          noteData.fileType = file.type; // Store file type (e.g., 'application/pdf', 'image/jpeg')
+          noteData.fileName = file.name; // Store original file name
+        } catch (error) {
+          console.error("File upload error:", error);
+          displayMessage('File upload failed: ' + error.message, 'error'); // Use custom message
+          return;
+        }
+      } else if (editingNoteId) {
+        // If no new file is uploaded during an edit operation, retain the existing file URL and info
+        noteData.fileUrl = currentFileUrl;
+        // Optionally, fetch fileType and fileName from the original note if not explicitly stored
+        // This assumes these fields were saved when the note was originally created/updated
+        const existingNoteDoc = await db.collection('notes').doc(editingNoteId).get();
+        if(existingNoteDoc.exists) {
+          noteData.fileType = existingNoteDoc.data().fileType || null;
+          noteData.fileName = existingNoteDoc.data().fileName || null;
+        }
+      } else {
+        // For new notes without a file, explicitly set fileUrl to null
+        noteData.fileUrl = null;
+        noteData.fileType = null;
+        noteData.fileName = null;
+      }
+
+
+      try {
+        if (editingNoteId) {
+          // Update existing note
+          await db.collection('notes').doc(editingNoteId).update(noteData);
+          displayMessage('Note updated successfully!', 'success');
+        } else {
+          // Add new note
+          noteData.createdAt = firebase.firestore.FieldValue.serverTimestamp(); // Set createdAt only for new notes
+          await db.collection('notes').add(noteData);
+          displayMessage('Note added successfully!', 'success');
+        }
+        resetForm(); // Clear form and editing state
+        loadNotes(); // Reload notes list
+      } catch (error) {
+        console.error("Database error:", error);
+        displayMessage('Error saving note: ' + error.message, 'error'); // Use custom message
+      }
+    });
+
+    async function loadNotes() {
+      try {
+        // Added loading state
+        noteList.innerHTML = `<div class="loading-state"><i class="fas fa-spinner fa-spin"></i><p>Loading notes...</p></div>`;
+
+        const snapshot = await db.collection('notes').orderBy('createdAt', 'desc').get();
+        noteList.innerHTML = ''; // Clear loading state
+
+        if (snapshot.empty) {
+          noteList.innerHTML = '<p class="info-message">No notes found.</p>'; // Styled message
+          return;
         }
 
-        async function loadSubjectsFromSupabase() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('subjects')
-                    .select('name');
+        snapshot.forEach(doc => {
+          const note = doc.data();
+          const fileInfo = note.fileUrl ?
+            `<a href="${note.fileUrl}" target="_blank" class="file-link">
+              <i class="fas ${note.fileType && note.fileType.includes('image') ? 'fa-image' : 'fa-file-pdf'}"></i>
+              ${note.fileName || 'View File'}
+            </a>` :
+            '<span class="no-file">No file attached</span>';
 
-                if (error) {
-                    throw error;
-                }
-                populateSubjectSelect(data.map(item => ({ name: item.name })));
-            } catch (supabaseError) {
-                console.error("Error loading subjects from Supabase:", supabaseError);
-                noteSubjectSelect.innerHTML = '<option value="">Error loading subjects</option>';
-                showCustomMessage('Failed to load subjects. Please check console for details.', 'error');
-            }
+          noteList.innerHTML += `
+            <div class="note-item" data-note-id="${doc.id}">
+              <span>
+                <strong>${note.title}</strong><br>
+                <em>Topic: ${note.topic || 'N/A'}</em><br> (${note.grade} - ${note.subject}) ${fileInfo}
+              </span>
+              <div class="actions">
+                <button class="edit-button" onclick="editNote('${doc.id}')">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button onclick="deleteNoteConfirmation('${doc.id}')">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
+          `;
+        });
+      } catch (error) {
+        console.error("Error loading notes:", error);
+        noteList.innerHTML = '<p class="error-message">Error loading notes. Please refresh.</p>'; // Styled error message
+      }
+    }
+
+    async function editNote(noteId) {
+      try {
+        const doc = await db.collection('notes').doc(noteId).get();
+        if (!doc.exists) throw new Error("Note not found!");
+
+        const note = doc.data();
+        document.getElementById('title').value = note.title;
+        document.getElementById('topic').value = note.topic || ''; // NEW: Populate topic field
+        document.getElementById('content').value = note.content;
+        document.getElementById('subject').value = note.subject;
+        document.getElementById('grade').value = note.grade;
+
+        editingNoteId = noteId;
+        currentFileUrl = note.fileUrl || null; // Store the current file URL for potential deletion
+
+        submitButton.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+        cancelButton.style.display = 'inline-flex';
+
+        document.getElementById('fileInput').value = ''; // Clear file input for re-upload option
+        noteForm.scrollIntoView({
+          behavior: 'smooth'
+        });
+      } catch (error) {
+        console.error("Edit error:", error);
+        displayMessage('Error loading note for edit: ' + error.message, 'error'); // Use custom message
+      }
+    }
+
+    function cancelEdit() {
+      resetForm();
+    }
+
+    function resetForm() {
+      noteForm.reset();
+      editingNoteId = null; // Clear editing state
+      currentFileUrl = null; // Clear current file URL
+      document.getElementById('topic').value = ''; // NEW: Clear topic input
+      submitButton.innerHTML = '<i class="fas fa-upload"></i> Upload Note';
+      cancelButton.style.display = 'none';
+      document.getElementById('fileInput').value = ''; // Clear file input
+    }
+
+    // Function to handle delete confirmation using a custom modal/message
+    function deleteNoteConfirmation(noteId) {
+      // Instead of confirm(), you'd display a custom modal here
+      // For this example, we'll simulate the user clicking 'OK'
+      if (confirm('Are you sure you want to delete this note? This action cannot be undone.')) {
+        deleteNote(noteId);
+      }
+    }
+
+    async function deleteNote(noteId) {
+      try {
+        // Fetch the note to get fileUrl before deleting the document
+        const doc = await db.collection('notes').doc(noteId).get();
+        if (doc.exists && doc.data().fileUrl) {
+          const fileUrlToDelete = doc.data().fileUrl;
+          // Extract the path from the full URL for Supabase storage deletion
+          const filePathSegment = fileUrlToDelete.split('/notes/')[1];
+          if (filePathSegment) {
+            await supabaseClient.storage.from('notes').remove([filePathSegment]);
+          }
         }
 
-        function populateSubjectSelect(subjects) {
-            noteSubjectSelect.innerHTML = '<option value="">Select a Subject</option>';
-            subjects.forEach(subject => {
-                const option = document.createElement('option');
-                option.value = subject.name.toLowerCase().replace(/\s+/g, '-'); // slugify name
-                option.textContent = subject.name;
-                noteSubjectSelect.appendChild(option);
-            });
-        }
+        // Delete note from Firestore
+        await db.collection('notes').doc(noteId).delete();
 
-        // --- Note Upload Logic ---
-        async function uploadNote() {
-            const subject = noteSubjectSelect.value;
-            const grade = noteGradeSelect.value;
-            const title = noteTitleInput.value.trim();
-            const topic = noteTopicInput.value.trim(); // NEW: Get topic value
-            const content = noteContentTextarea.value.trim();
-            const file = noteFileInput.files[0];
+        if (editingNoteId === noteId) resetForm(); // Reset form if the deleted note was being edited
+        loadNotes(); // Reload notes list
+        displayMessage('Note deleted successfully!', 'success');
+      } catch (error) {
+        console.error("Delete error:", error);
+        displayMessage('Error deleting note: ' + error.message, 'error');
+      }
+    }
 
-            if (!subject || !grade || !title || !topic || !content) { // NEW: Validate topic
-                showCustomMessage('Please fill in all required fields (Subject, Grade, Title, Topic, Content).', 'error');
-                return;
-            }
+    // Custom message display function (replaces alert/confirm)
+    function displayMessage(message, type = 'info') {
+      const messageContainer = document.createElement('div');
+      messageContainer.className = `custom-message ${type}`;
+      messageContainer.textContent = message;
+      messageContainer.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.5s forwards, fadeOut 0.5s 4.5s forwards;
+      `;
 
-            showLoadingOverlay(true);
-            fileUploadStatus.textContent = 'Uploading note...';
+      if (type === 'success') {
+        messageContainer.style.backgroundColor = '#4CAF50'; /* Green */
+        messageContainer.style.color = '#fff';
+      } else if (type === 'error') {
+        messageContainer.style.backgroundColor = '#F44336'; /* Red */
+        messageContainer.style.color = '#fff';
+      } else {
+        messageContainer.style.backgroundColor = '#2196F3'; /* Blue */
+        messageContainer.style.color = '#fff';
+      }
 
-            let fileUrl = null;
-            let fileType = null;
+      document.body.appendChild(messageContainer);
 
-            try {
-                if (file) {
-                    fileUploadStatus.textContent = 'Uploading file...';
-                    const storageRef = storage.ref(`notes_files/${file.name}`);
-                    const uploadTask = storageRef.put(file);
+      // Remove the message after a few seconds
+      setTimeout(() => {
+        messageContainer.remove();
+      }, 5000); // Message visible for 5 seconds
+    }
 
-                    // Using a promise-based approach for upload task completion
-                    await new Promise((resolve, reject) => {
-                        uploadTask.on('state_changed',
-                            (snapshot) => {
-                                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                                uploadProgress.textContent = `${progress.toFixed(0)}%`;
-                            },
-                            (error) => {
-                                reject(error); // Reject the promise on error
-                            },
-                            async () => {
-                                fileUrl = await storageRef.getDownloadURL();
-                                fileType = file.type;
-                                fileUploadStatus.textContent = 'File uploaded successfully!';
-                                resolve(); // Resolve the promise on successful upload
-                            }
-                        );
-                    });
-                }
-                // Continue to save note after file upload (or if no file)
-                await saveNoteToFirestore(subject, grade, title, topic, content, fileUrl, fileType); // NEW: Pass topic
-                showCustomMessage('Note uploaded successfully!', 'success');
-                clearForm();
-            } catch (error) {
-                console.error("Upload error:", error);
-                showCustomMessage(`Error uploading note: ${error.message}`, 'error');
-                fileUploadStatus.textContent = `Upload failed: ${error.message}`;
-            } finally {
-                showLoadingOverlay(false);
-            }
-        }
+    // Keyframes for custom message
+    const styleSheet = document.styleSheets[0];
+    styleSheet.insertRule(`
+      @keyframes slideIn {
+        from { top: 0px; opacity: 0; }
+        to { top: 20px; opacity: 1; }
+      }
+    `, styleSheet.cssRules.length);
 
-        async function saveNoteToFirestore(subject, grade, title, topic, content, fileUrl, fileType) { // NEW: Receive topic
-            try {
-                const noteData = {
-                    subject: subject,
-                    grade: grade,
-                    title: title,
-                    topic: topic, // NEW: Save topic to Firestore
-                    content: content,
-                    fileUrl: fileUrl,
-                    fileType: fileType,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
+    styleSheet.insertRule(`
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+    `, styleSheet.cssRules.length);
 
-                await db.collection('notes').add(noteData);
-            } catch (error) {
-                console.error("Error saving note to Firestore:", error);
-                throw new Error("Failed to save note details to database.");
-            }
-        }
+    // Added styles for info and error messages within the note-list
+    styleSheet.insertRule(`
+      p.info-message, p.error-message {
+        color: rgba(255, 255, 255, 0.8);
+        font-style: italic;
+        text-align: center;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+    `, styleSheet.cssRules.length);
 
-        function clearForm() {
-            noteSubjectSelect.value = '';
-            noteGradeSelect.value = 'Grade 1'; // Reset to default
-            noteTitleInput.value = '';
-            noteTopicInput.value = ''; // NEW: Clear topic input
-            noteContentTextarea.value = '';
-            noteFileInput.value = ''; // Clear file input
-            fileUploadStatus.textContent = '';
-            uploadProgress.textContent = '0%';
-        }
-
-        function showLoadingOverlay(show) {
-            loadingOverlay.style.display = show ? 'flex' : 'none';
-        }
-
-        // Custom Message Display Function
-        function showCustomMessage(message, type = 'info') {
-            const existingMessage = document.querySelector('.custom-message');
-            if (existingMessage) {
-                existingMessage.remove();
-            }
-
-            const messageContainer = document.createElement('div');
-            messageContainer.className = 'custom-message';
-            messageContainer.textContent = message;
-
-            if (type === 'success') {
-                messageContainer.style.backgroundColor = '#4CAF50'; /* Green */
-                messageContainer.style.color = '#fff';
-            } else if (type === 'error') {
-                messageContainer.style.backgroundColor = '#F44336'; /* Red */
-                messageContainer.style.color = '#fff';
-            } else {
-                messageContainer.style.backgroundColor = '#2196F3'; /* Blue */
-                messageContainer.style.color = '#fff';
-            }
-
-            document.body.appendChild(messageContainer);
-
-            // Remove the message after a few seconds
-            setTimeout(() => {
-                messageContainer.remove();
-            }, 5000); // Message visible for 5 seconds
-        }
-
-        // Keyframes for custom message (ensure these are present or added)
-        const styleSheet = document.styleSheets[0];
-
-        // Check if rules exist before inserting to avoid errors on re-run
-        const slideInRuleExists = Array.from(styleSheet.cssRules).some(rule => rule.cssText.includes('@keyframes slideIn'));
-        const fadeOutRuleExists = Array.from(styleSheet.cssRules).some(rule => rule.cssText.includes('@keyframes fadeOut'));
-        
-        if (!slideInRuleExists) {
-            styleSheet.insertRule(`
-            @keyframes slideIn {
-                from { top: 0px; opacity: 0; }
-                to { top: 20px; opacity: 1; }
-            }
-            `, styleSheet.cssRules.length);
-        }
-
-        if (!fadeOutRuleExists) {
-            styleSheet.insertRule(`
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
-            }
-            `, styleSheet.cssRules.length);
-        }
-    </script>
+    styleSheet.insertRule(`
+      p.error-message {
+        color: #ff8888;
+        background: rgba(255, 0, 0, 0.1);
+      }
+    `, styleSheet.cssRules.length);
+  </script>
 </body>
 
 </html>
