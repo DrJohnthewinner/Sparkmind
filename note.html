@@ -20,7 +20,8 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      /* Changed to match index.html gradient */
+      background: linear-gradient(135deg, #6a82fb, #fc5c7d);
       color: #fff;
       min-height: 100vh;
       display: flex;
@@ -28,6 +29,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 20px;
+      background-attachment: fixed; /* Added for consistency */
     }
 
     #main-content {
@@ -38,6 +40,7 @@
       width: 100%;
       max-width: 1000px;
       animation: fadeIn 1s ease-in-out;
+      padding: 20px 0; /* Added for consistency */
     }
 
     @keyframes fadeIn {
@@ -53,45 +56,65 @@
     }
 
     #notes-page {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 25px;
-      padding: 40px 30px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      /* Enhanced glassmorphism to match index.html's #grade-selection */
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px; /* Adjusted radius */
+      padding: 40px; /* Adjusted padding */
+      backdrop-filter: blur(15px); /* Stronger blur */
+      -webkit-backdrop-filter: blur(15px); /* Webkit prefix */
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); /* Stronger shadow */
       text-align: center;
       width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.2); /* Added border */
     }
 
     h2 {
-      font-weight: 600;
+      font-weight: 700; /* Made bolder like index.html's h1 */
       font-size: 2.5rem;
       margin-bottom: 30px;
       color: #fff;
+      display: flex; /* Aligned with index.html h1 for icon */
+      align-items: center;
+      justify-content: center;
+      gap: 15px; /* Spacing for icon */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Added text shadow */
+    }
+
+    h2 .fas { /* Styling for the icon within h2 */
+        font-size: 2.2rem; /* Adjust icon size relative to text */
     }
 
     .back-button {
-      background: rgba(255, 255, 255, 0.15);
+      /* Adopted button styling from index.html's .grade-list button */
+      padding: 18px 35px;
       border: none;
-      color: white;
-      padding: 12px 25px;
-      border-radius: 12px;
-      font-size: 1rem;
+      border-radius: 50px; /* More rounded */
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 20px;
-      display: inline-flex;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: inline-flex; /* Changed from flex to inline-flex for better centering with text */
       align-items: center;
       justify-content: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px; /* Increased margin for better spacing */
     }
 
     .back-button i {
-      margin-right: 8px;
+      margin-right: 10px; /* Adjusted margin for icon */
     }
 
     .back-button:hover {
+      /* Hover effects similar to index.html buttons */
       background: #fff;
-      color: #00c6ff;
-      transform: translateY(-2px);
+      color: #6a82fb; /* Matched primary color from index.html */
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(106, 130, 251, 0.5);
     }
 
     .note-list {
@@ -101,70 +124,100 @@
     }
 
     .note-item {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      margin-bottom: 15px;
+      /* Slightly adjusted for better consistency with glassmorphism theme */
+      background: rgba(255, 255, 255, 0.15); /* Slightly more transparent */
+      padding: 25px; /* Increased padding */
+      margin-bottom: 20px; /* Increased margin */
       border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
       text-align: left;
+      border: 1px solid rgba(255, 255, 255, 0.2); /* Added border */
+      backdrop-filter: blur(5px); /* Added blur for individual note items */
+      -webkit-backdrop-filter: blur(5px);
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .note-item:hover {
+        transform: translateY(-3px); /* Subtle lift on hover */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
 
     .note-title {
-      font-size: 1.3rem;
-      color: #111827;
-      font-weight: 600;
+      font-size: 1.4rem; /* Slightly larger */
+      color: #fff; /* Changed to white for better contrast on transparent background */
+      font-weight: 700; /* Bolder */
       cursor: pointer;
-      margin-bottom: 10px;
-      padding-bottom: 5px;
-      border-bottom: 1px solid #eee;
+      margin-bottom: 12px; /* Adjusted margin */
+      padding-bottom: 8px; /* Adjusted padding */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Lighter, transparent border */
+      transition: color 0.3s ease;
+    }
+
+    .note-title:hover {
+        color: #00f2fe; /* Light blue on hover */
     }
 
     .note-content {
-      font-size: 1rem;
-      color: #333;
-      margin-bottom: 15px;
-      line-height: 1.6;
+      font-size: 1.05rem; /* Slightly larger */
+      color: rgba(255, 255, 255, 0.9); /* Lighter color for content */
+      margin-bottom: 18px; /* Adjusted margin */
+      line-height: 1.7; /* Increased line height */
     }
 
     .file-link {
       display: inline-block;
       margin-top: 10px;
-      color: #4f46e5;
+      color: #00f2fe; /* Changed to light blue for consistency */
       text-decoration: none;
       font-weight: 600;
-      transition: color 0.3s ease;
+      transition: color 0.3s ease, transform 0.2s ease;
+      background: rgba(255, 255, 255, 0.1); /* Subtle background */
+      padding: 8px 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .file-link:hover {
-      color: #3831a2;
-      text-decoration: underline;
+      color: #fff;
+      background: #00f2fe; /* Solid background on hover */
+      text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .file-link i {
-      margin-right: 5px;
+      margin-right: 8px; /* Adjusted margin */
     }
 
     .note-image {
       max-width: 100%;
       height: auto;
-      border-radius: 8px;
-      margin-top: 15px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px; /* Slightly more rounded */
+      margin-top: 20px; /* Increased margin */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow */
       cursor: zoom-in;
+      border: 2px solid rgba(255, 255, 255, 0.3); /* Added a light border */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .note-image:hover {
+        transform: scale(1.02); /* Slight zoom on hover */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
 
     .note-details {
       display: none;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed #e0e0e0;
+      margin-top: 15px; /* Adjusted margin */
+      padding-top: 15px; /* Adjusted padding */
+      border-top: 1px dashed rgba(255, 255, 255, 0.4); /* Lighter, transparent border */
     }
 
     small {
       display: block;
-      margin-top: 10px;
-      color: #666;
-      font-size: 0.85rem;
+      margin-top: 15px; /* Increased margin */
+      color: rgba(255, 255, 255, 0.7); /* Lighter color */
+      font-size: 0.9rem; /* Slightly larger */
+      font-style: italic; /* Added italic style */
     }
 
     .loading-state {
@@ -179,26 +232,101 @@
       margin-bottom: 10px;
     }
 
+    /* Modernized Footer Styles (Copied from index.html) */
     .footer {
-      margin-top: 30px;
-      padding: 15px;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 0.9rem;
-      text-align: center;
       width: 100%;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      border-radius: 20px 20px 0 0;
+      animation: slideUp 1s ease-in-out;
+      margin-top: 40px; /* Adjusted margin to provide space */
     }
 
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .footer-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .footer-link:hover {
+      color: #fc5c7d;
+    }
+
+    .footer-button {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .footer-button:hover {
+      background: #fff;
+      color: #6a82fb;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(106, 130, 251, 0.5);
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+
+    /* Responsive Adjustments (Updated to match index.html's breakpoints and icon sizing) */
     @media (max-width: 768px) {
       #notes-page {
-        padding: 30px 20px;
+        padding: 30px 20px; /* Adjusted for smaller screens */
       }
 
       h2 {
+        font-size: 2.2rem; /* Adjusted h2 size */
+        gap: 10px;
+      }
+      h2 .fas {
         font-size: 2rem;
       }
 
+      .back-button {
+        padding: 15px 30px; /* Adjusted button padding */
+        font-size: 1.1rem;
+      }
+
+      .note-item {
+        padding: 20px;
+      }
+
       .note-title {
-        font-size: 1.15rem;
+        font-size: 1.25rem;
+      }
+
+      .note-content {
+        font-size: 0.95rem;
       }
     }
 
@@ -207,13 +335,21 @@
         padding: 10px;
       }
 
+      #notes-page {
+        padding: 25px 15px;
+      }
+
       h2 {
         font-size: 1.8rem;
+        gap: 8px;
+      }
+      h2 .fas {
+        font-size: 1.6rem;
       }
 
       .back-button {
-        padding: 10px 20px;
-        font-size: 0.9rem;
+        padding: 12px 25px;
+        font-size: 1rem;
       }
 
       .note-item {
@@ -225,11 +361,16 @@
       }
 
       .note-content {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
 
       .footer {
-        font-size: 0.8rem;
+        padding: 15px;
+        font-size: 0.85rem;
+      }
+      .footer-button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -254,7 +395,14 @@
   </div>
 
   <footer class="footer">
-    <p>Copyright &copy; Sparkminds</p>
+    <div class="footer-container">
+      <p>
+        <a href="https://smart-mind1.netlify.app/admin.html" target="_blank" class="footer-link">&copy; Sparkminds</a>
+      </p>
+      <p>
+        For schemes and exams <a href="https://junior-sch.netlify.app" target="_blank" class="footer-button">Click Here</a>
+      </p>
+    </div>
   </footer>
 
   <script>
