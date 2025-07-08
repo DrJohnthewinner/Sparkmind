@@ -4,48 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | Sparkminds</title>
+    <title>Admin Panel | Smart Mind</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
+        /* Global Resets */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
+        /* Body Styling - Consistent Background and Layout */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #6a82fb, #fc5c7d);
-            color: #fff;
+            /* A darker, subtle blue gradient for the background */
+            background: linear-gradient(135deg, #1A2980, #26D0CE);
+            color: #ecf0f1;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             padding: 20px;
-            background-attachment: fixed;
         }
 
+        /* Admin Container - Glassmorphism Effect */
         #admin-container {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            text-align: center;
+            /* Slightly transparent white background */
+            backdrop-filter: blur(10px);
+            /* Blur effect for glassmorphism */
+            -webkit-backdrop-filter: blur(10px);
+            /* Safari support */
+            border-radius: 15px;
+            /* Rounded corners */
+            padding: 30px;
+            /* Inner spacing */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            /* Subtle shadow for depth */
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            /* Light border */
             width: 100%;
-            max-width: 700px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: fadeIn 1s ease-in-out;
+            max-width: 600px;
+            /* Max width for content */
+            text-align: center;
+            /* Center text elements */
+            animation: fadeIn 0.8s ease-out forwards;
         }
 
+        /* Fade-in Animation */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -58,18 +72,27 @@
             }
         }
 
-        h1 {
-            font-weight: 700;
-            font-size: 2.8rem;
-            margin-bottom: 30px;
+        /* Headings */
+        h1,
+        h2 {
             color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
 
-        #login-section {
-            margin-bottom: 30px;
+        h1 {
+            font-size: 2.5em;
         }
 
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Form Group Styling */
         .form-group {
             margin-bottom: 20px;
             text-align: left;
@@ -78,31 +101,33 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            color: #e0e0e0;
         }
 
         .form-group input[type="email"],
         .form-group input[type="password"],
         .form-group input[type="text"],
         .form-group select,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group input[type="file"] {
             width: 100%;
-            padding: 12px 15px;
+            padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
             color: #fff;
             font-size: 1rem;
-            outline: none;
             transition: all 0.3s ease;
+            outline: none;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .form-group input[type="email"]::placeholder,
         .form-group input[type="password"]::placeholder,
         .form-group input[type="text"]::placeholder,
         .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .form-group input[type="email"]:focus,
@@ -110,59 +135,58 @@
         .form-group input[type="text"]:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
             background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
+        /* Specific style for file input for better visual consistency */
+        .form-group input[type="file"] {
+            padding-top: 10px;
+            /* Adjust padding for file input */
+        }
+
+        /* Button Styling */
         .auth-button,
         .action-button {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.25);
+            background: linear-gradient(90deg, #6a82fb, #26d0ce);
             color: #fff;
-            font-size: 1.1rem;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin: 5px;
         }
 
         .auth-button:hover,
         .action-button:hover {
-            background: #fff;
-            color: #6a82fb;
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(106, 130, 251, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(90deg, #26d0ce, #6a82fb);
         }
 
+        /* Upload Section - Initially Hidden */
         #upload-section {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
             display: none;
-            /* Hidden by default */
+            /* JavaScript will toggle this */
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        #upload-section h2 {
-            font-weight: 600;
-            font-size: 2rem;
-            margin-bottom: 25px;
-            color: #fff;
-        }
-
+        /* File Upload Status */
         #file-upload-status {
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #c0c0c0;
             min-height: 20px;
         }
 
+        /* Loading Overlay */
         #loading-overlay {
             display: none;
             position: fixed;
@@ -181,7 +205,7 @@
 
         .spinner {
             border: 8px solid rgba(255, 255, 255, 0.3);
-            border-top: 8px solid #fc5c7d;
+            border-top: 8px solid #26D0CE;
             border-radius: 50%;
             width: 60px;
             height: 60px;
@@ -202,64 +226,72 @@
         #upload-progress {
             margin-top: 10px;
             font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+
+        /* Custom Alert Message Styling */
+        .custom-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 500;
+            z-index: 1001;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-out 4.5s forwards;
+            min-width: 250px;
+            text-align: center;
         }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             #admin-container {
-                padding: 30px 20px;
+                padding: 25px;
             }
 
             h1 {
-                font-size: 2.2rem;
-                margin-bottom: 20px;
+                font-size: 2.2em;
             }
 
-            #upload-section h2 {
-                font-size: 1.7rem;
-                margin-bottom: 20px;
-            }
-
-            .auth-button,
-            .action-button {
-                padding: 12px 25px;
-                font-size: 1rem;
-                margin: 8px 3px;
+            h2 {
+                font-size: 1.6em;
             }
 
             .form-group input,
             .form-group select,
             .form-group textarea {
-                padding: 10px 12px;
-                font-size: 0.95rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
                 padding: 10px;
-            }
-
-            #admin-container {
-                padding: 25px 15px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            #upload-section h2 {
-                font-size: 1.5rem;
+                font-size: 0.95rem;
             }
 
             .auth-button,
             .action-button {
                 padding: 10px 20px;
-                font-size: 0.9rem;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #admin-container {
+                padding: 20px 15px;
             }
 
-            .form-group label {
-                font-size: 0.9rem;
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            .custom-message {
+                padding: 12px 20px;
+                font-size: 1em;
+                width: 90%;
             }
         }
     </style>
@@ -404,24 +436,23 @@
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     // Signed in
-                    alert('Logged in successfully!');
+                    showCustomMessage('Logged in successfully!', 'success');
                     // UI handled by onAuthStateChanged
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
                     const errorMessage = error.message;
-                    alert(`Login failed: ${errorMessage}`);
-                    console.error("Login Error:", errorCode, errorMessage);
+                    showCustomMessage(`Login failed: ${errorMessage}`, 'error');
+                    console.error("Login Error:", error);
                 });
         }
 
         function logoutAdmin() {
             auth.signOut().then(() => {
-                alert('Logged out successfully!');
+                showCustomMessage('Logged out successfully!', 'success');
                 // UI handled by onAuthStateChanged
             }).catch((error) => {
                 console.error("Logout Error:", error);
-                alert('Error logging out.');
+                showCustomMessage('Error logging out.', 'error');
             });
         }
 
@@ -435,7 +466,7 @@
                     populateSubjectSelect(firestoreSnapshot.docs.map(doc => doc.data()));
                 } else {
                     // Fallback to Supabase if Firestore is empty or fails
-                    console.warn("Firestore subjects empty, trying Supabase.");
+                    console.warn("Firestore subjects empty or failed, trying Supabase.");
                     await loadSubjectsFromSupabase();
                 }
             } catch (firestoreError) {
@@ -458,10 +489,9 @@
             } catch (supabaseError) {
                 console.error("Error loading subjects from Supabase:", supabaseError);
                 noteSubjectSelect.innerHTML = '<option value="">Error loading subjects</option>';
-                alert('Failed to load subjects. Please check console for details.');
+                showCustomMessage('Failed to load subjects. Please check console for details.', 'error');
             }
         }
-
 
         function populateSubjectSelect(subjects) {
             noteSubjectSelect.innerHTML = '<option value="">Select a Subject</option>';
@@ -483,7 +513,7 @@
             const file = noteFileInput.files[0];
 
             if (!subject || !grade || !title || !topic || !content) { // NEW: Validate topic
-                alert('Please fill in all required fields (Subject, Grade, Title, Topic, Content).');
+                showCustomMessage('Please fill in all required fields (Subject, Grade, Title, Topic, Content).', 'error');
                 return;
             }
 
@@ -499,29 +529,34 @@
                     const storageRef = storage.ref(`notes_files/${file.name}`);
                     const uploadTask = storageRef.put(file);
 
-                    uploadTask.on('state_changed',
-                        (snapshot) => {
-                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            uploadProgress.textContent = `${progress.toFixed(0)}%`;
-                        },
-                        (error) => {
-                            console.error("File upload error:", error);
-                            throw new Error("Failed to upload file to Firebase Storage.");
-                        },
-                        async () => {
-                            fileUrl = await storageRef.getDownloadURL();
-                            fileType = file.type;
-                            fileUploadStatus.textContent = 'File uploaded successfully!';
-                            await saveNoteToFirestore(subject, grade, title, topic, content, fileUrl, fileType); // NEW: Pass topic
-                        }
-                    );
-                } else {
-                    await saveNoteToFirestore(subject, grade, title, topic, content, null, null); // NEW: Pass topic
+                    // Using a promise-based approach for upload task completion
+                    await new Promise((resolve, reject) => {
+                        uploadTask.on('state_changed',
+                            (snapshot) => {
+                                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                uploadProgress.textContent = `${progress.toFixed(0)}%`;
+                            },
+                            (error) => {
+                                reject(error); // Reject the promise on error
+                            },
+                            async () => {
+                                fileUrl = await storageRef.getDownloadURL();
+                                fileType = file.type;
+                                fileUploadStatus.textContent = 'File uploaded successfully!';
+                                resolve(); // Resolve the promise on successful upload
+                            }
+                        );
+                    });
                 }
+                // Continue to save note after file upload (or if no file)
+                await saveNoteToFirestore(subject, grade, title, topic, content, fileUrl, fileType); // NEW: Pass topic
+                showCustomMessage('Note uploaded successfully!', 'success');
+                clearForm();
             } catch (error) {
                 console.error("Upload error:", error);
-                alert(`Error uploading note: ${error.message}`);
+                showCustomMessage(`Error uploading note: ${error.message}`, 'error');
                 fileUploadStatus.textContent = `Upload failed: ${error.message}`;
+            } finally {
                 showLoadingOverlay(false);
             }
         }
@@ -540,16 +575,11 @@
                 };
 
                 await db.collection('notes').add(noteData);
-                alert('Note uploaded successfully!');
-                clearForm();
             } catch (error) {
                 console.error("Error saving note to Firestore:", error);
                 throw new Error("Failed to save note details to database.");
-            } finally {
-                showLoadingOverlay(false);
             }
         }
-
 
         function clearForm() {
             noteSubjectSelect.value = '';
@@ -564,6 +594,61 @@
 
         function showLoadingOverlay(show) {
             loadingOverlay.style.display = show ? 'flex' : 'none';
+        }
+
+        // Custom Message Display Function
+        function showCustomMessage(message, type = 'info') {
+            const existingMessage = document.querySelector('.custom-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'custom-message';
+            messageContainer.textContent = message;
+
+            if (type === 'success') {
+                messageContainer.style.backgroundColor = '#4CAF50'; /* Green */
+                messageContainer.style.color = '#fff';
+            } else if (type === 'error') {
+                messageContainer.style.backgroundColor = '#F44336'; /* Red */
+                messageContainer.style.color = '#fff';
+            } else {
+                messageContainer.style.backgroundColor = '#2196F3'; /* Blue */
+                messageContainer.style.color = '#fff';
+            }
+
+            document.body.appendChild(messageContainer);
+
+            // Remove the message after a few seconds
+            setTimeout(() => {
+                messageContainer.remove();
+            }, 5000); // Message visible for 5 seconds
+        }
+
+        // Keyframes for custom message (ensure these are present or added)
+        const styleSheet = document.styleSheets[0];
+
+        // Check if rules exist before inserting to avoid errors on re-run
+        const slideInRuleExists = Array.from(styleSheet.cssRules).some(rule => rule.cssText.includes('@keyframes slideIn'));
+        const fadeOutRuleExists = Array.from(styleSheet.cssRules).some(rule => rule.cssText.includes('@keyframes fadeOut'));
+        
+        if (!slideInRuleExists) {
+            styleSheet.insertRule(`
+            @keyframes slideIn {
+                from { top: 0px; opacity: 0; }
+                to { top: 20px; opacity: 1; }
+            }
+            `, styleSheet.cssRules.length);
+        }
+
+        if (!fadeOutRuleExists) {
+            styleSheet.insertRule(`
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+            `, styleSheet.cssRules.length);
         }
     </script>
 </body>
