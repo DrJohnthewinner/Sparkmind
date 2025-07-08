@@ -9,141 +9,33 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <link rel="stylesheet" href="style.css">
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #43cea2, #185a9d);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    #main-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 50px 20px;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    #subjects-page {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(15px);
-      border-radius: 25px;
-      padding: 40px 30px;
-      max-width: 850px;
-      width: 100%;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
-      text-align: center;
-    }
-
-    h2 {
-      font-weight: 600;
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-    }
-
-    .subject-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
-
-    .subject-list button {
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #fff;
-      border-radius: 15px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .subject-list button i {
-      margin-right: 12px;
-      font-size: 1.3rem;
-    }
-
-    .subject-list button:hover {
-      background: #fff;
-      color: #185a9d;
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .back-button {
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
-      color: white;
-      padding: 12px 25px;
-      border-radius: 12px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 20px;
-    }
-
-    .back-button:hover {
-      background: #fff;
-      color: #185a9d;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      color: #ddd;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 480px) {
-      h2 {
-        font-size: 2rem;
-      }
-
-      .subject-list button {
-        font-size: 1rem;
-      }
-    }
-  </style>
 </head>
 
-<body>
+<body class="subjects-body">
+  <header>
+    <a href="index.html" class="logo"><i class="fas fa-brain"></i> Smart Mind</a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="subjects.html">Subjects</a></li>
+        <li><a href="note.html">Notes</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      <button onclick="loginWithGoogle()">Login</button>
+    </div>
+  </header>
+
   <div id="main-content">
-    <section id="subjects-page">
-      <button class="back-button" onclick="goBackToGradesPage()">
-        <i class="fas fa-arrow-left"></i> Back to Grades
-      </button>
-      <h2><i class="fas fa-book-open"></i> Select a Subject for <span id="grade-display"></span></h2>
-      <div class="subject-list">
-        <button onclick="navigateToSubjectPage('mathematics')"><i class="fas fa-square-root-alt"></i> Mathematics</button>
-        <button onclick="navigateToSubjectPage('english')"><i class="fas fa-language"></i> English</button>
+    <section class="container">
+      <h1>Select Your Subject</h1>
+      <p id="grade-display">For Grade 8</p>
+      <div class="subject-buttons">
+        <button onclick="navigateToSubjectPage('mathematics')"><i class="fas fa-calculator"></i> Mathematics</button>
+        <button onclick="navigateToSubjectPage('english')"><i class="fas fa-book-open"></i> English</button>
         <button onclick="navigateToSubjectPage('kiswahili')"><i class="fas fa-comments"></i> Kiswahili</button>
         <button onclick="navigateToSubjectPage('integrated-science')"><i class="fas fa-flask"></i> Integrated Science</button>
         <button onclick="navigateToSubjectPage('social-studies')"><i class="fas fa-globe-americas"></i> Social Studies</button>
@@ -152,27 +44,69 @@
         <button onclick="navigateToSubjectPage('agriculture-nutrition')"><i class="fas fa-seedling"></i> Agriculture and Nutrition</button>
         <button onclick="navigateToSubjectPage('creative-arts-sports')"><i class="fas fa-palette"></i> Creative Arts and Sports</button>
       </div>
+      <button onclick="goBackToGradesPage()" class="back-button"><i class="fas fa-arrow-left"></i> Back to Grades</button>
     </section>
   </div>
 
+  <footer class="footer">
+    <div class="footer-container">
+      <p>&copy; 2024 Smart Mind. All rights reserved.</p>
+      <a href="#" class="footer-link">Privacy Policy</a>
+      <a href="#" class="footer-link">Terms of Service</a>
+    </div>
+    <button class="footer-button" onclick="window.location.href='index.html'">Go to Home</button>
+  </footer>
+
+  <script src="script.js"></script>
   <script>
-    function goBackToGradesPage() {
-      window.location.href = 'index.html';
+    // Firebase (for login/logout) configuration - adjust if needed
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+      const loginButton = document.querySelector('.auth-buttons button');
+      if (user) {
+        loginButton.textContent = 'Logout';
+        loginButton.onclick = logout;
+      } else {
+        loginButton.textContent = 'Login';
+        loginButton.onclick = loginWithGoogle;
+      }
+    });
+
+    async function loginWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        await auth.signInWithPopup(provider);
+        // Page will reload, or you can handle redirect based on requirements
+      } catch (error) {
+        console.error("Error during Google login:", error);
+      }
     }
 
-    function navigateToSubjectPage(subject) {
-      window.location.href = "note.html?subject=" + encodeURIComponent(subject);
+    async function logout() {
+      try {
+        await auth.signOut();
+        // Page will reload, or you can handle redirect based on requirements
+      } catch (error) {
+        console.error("Error logging out:", error);
+      }
     }
+
 
     document.addEventListener('DOMContentLoaded', function () {
       const grade = localStorage.getItem('selectedGrade') || 'Unknown Grade';
-      document.getElementById('grade-display').textContent = grade;
+      document.getElementById('grade-display').textContent = `For ${grade}`;
     });
   </script>
-
-  <footer>
-    <p>Copyright &copy; Sparkminds</p>
-  </footer>
 </body>
 
 </html>
