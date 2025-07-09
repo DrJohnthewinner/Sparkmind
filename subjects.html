@@ -26,12 +26,26 @@
       justify-content: space-between;
     }
 
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .logo-container img {
+      height: 60px;
+      width: auto;
+      max-width: 200px;
+    }
+
     #main-content {
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 50px 20px;
       animation: fadeIn 1s ease-in-out;
+      margin-top: 40px;
     }
 
     @keyframes fadeIn {
@@ -123,6 +137,15 @@
     }
 
     @media (max-width: 480px) {
+      .logo-container {
+        top: 10px;
+        left: 10px;
+      }
+      
+      .logo-container img {
+        height: 40px;
+      }
+
       h2 {
         font-size: 2rem;
       }
@@ -130,11 +153,19 @@
       .subject-list button {
         font-size: 1rem;
       }
+      
+      #main-content {
+        padding-top: 30px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="logo-container">
+    <img src="moe-logo.webp" alt="Ministry of Education Logo">
+  </div>
+
   <div id="main-content">
     <section id="subjects-page">
       <button class="back-button" onclick="goBackToGradesPage()">
