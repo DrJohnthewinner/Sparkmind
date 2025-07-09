@@ -29,9 +29,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
       padding: 20px;
       background-attachment: fixed;
+      position: relative; /* Added for logo positioning */
+    }
+
+    /* Ministry of Education Logo */
+    .moe-logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      height: 50px;
+      z-index: 10;
     }
 
     /* Main Content Area */
@@ -43,7 +52,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px 0;
+      padding: 80px 0 20px; /* Added top padding for logo */
     }
 
     @keyframes fadeIn {
@@ -51,7 +60,6 @@
         opacity: 0;
         transform: translateY(20px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
@@ -83,19 +91,9 @@
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
 
-    /* Reinstated/Adjusted styles for the Font Awesome icon within H1 */
     h1 .fas {
-        font-size: 2.5rem; /* Adjust icon size relative to text */
-        /* Removed margin-right as it's handled by gap on the h1 flex container */
+        font-size: 2.5rem;
     }
-
-    /* Removed styles for the logo image within the H1 */
-    /* h1 img.logo {
-      height: 2.5rem;
-      margin-right: 10px;
-      vertical-align: middle;
-    } */
-
 
     /* Inspiration Message */
     .inspiration-message {
@@ -170,12 +168,6 @@
         font-size: 2rem;
       }
 
-      /* Removed responsive styles for logo */
-      /* h1 img.logo {
-        height: 2rem;
-        margin-right: 8px;
-      } */
-
       .inspiration-message {
         font-size: 1rem;
         padding: 15px;
@@ -185,32 +177,50 @@
         font-size: 1.1rem;
         padding: 15px 25px;
       }
+
+      .moe-logo {
+        height: 40px;
+        top: 15px;
+        left: 15px;
+      }
+
+      #main-content {
+        padding-top: 70px;
+      }
     }
 
     @media (max-width: 380px) {
-        h1 {
-            font-size: 1.8rem;
-        }
-        h1 .fas {
-            font-size: 1.6rem;
-        }
-        /* Removed responsive styles for logo */
-        /* h1 img.logo {
-            height: 1.6rem;
-            margin-right: 6px;
-        } */
-        .inspiration-message {
-            font-size: 0.9rem;
-        }
-        .grade-list button {
-            font-size: 1rem;
-            padding: 12px 20px;
-        }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h1 .fas {
+        font-size: 1.6rem;
+      }
+      .inspiration-message {
+        font-size: 0.9rem;
+      }
+      .grade-list button {
+        font-size: 1rem;
+        padding: 12px 20px;
+      }
+
+      .moe-logo {
+        height: 35px;
+        top: 10px;
+        left: 10px;
+      }
+
+      #main-content {
+        padding-top: 60px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- Ministry of Education Logo at top left -->
+  <img src="moe-logo.webp" alt="Ministry of Education Logo" class="moe-logo">
+
   <div id="main-content">
     <section id="grade-selection">
       <h1><i class="fas fa-graduation-cap"></i> Select Your Grade</h1>
@@ -225,84 +235,81 @@
     </section>
   </div>
 
-
   <script src="script.js"></script>
   <footer class="footer">
-  <div class="footer-container">
-    <p>
-      <a href="https://smart-mind1.netlify.app/admin.html" target="_blank" class="footer-link">&copy; Sparkminds</a>
-    </p>
-    <p>
-      For schemes and exams <a href="https://junior-sch.netlify.app" target="_blank" class="footer-button">Click Here</a>
-    </p>
-  </div>
-</footer>
+    <div class="footer-container">
+      <p>
+        <a href="https://smart-mind1.netlify.app/admin.html" target="_blank" class="footer-link">&copy; Sparkminds</a>
+      </p>
+      <p>
+        For schemes and exams <a href="https://junior-sch.netlify.app" target="_blank" class="footer-button">Click Here</a>
+      </p>
+    </div>
+  </footer>
 
-<style>
-  .footer {
-    width: 100%;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    border-radius: 20px 20px 0 0;
-    animation: slideUp 1s ease-in-out;
-  }
-
-  .footer-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .footer-link {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s;
-  }
-
-  .footer-link:hover {
-    color: #fc5c7d;
-  }
-
-  .footer-button {
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-  }
-
-  .footer-button:hover {
-    background: #fff;
-    color: #6a82fb;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(106, 130, 251, 0.5);
-  }
-
-  @keyframes slideUp {
-    from {
-      transform: translateY(30px);
-      opacity: 0;
+  <style>
+    .footer {
+      width: 100%;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      border-radius: 20px 20px 0 0;
+      animation: slideUp 1s ease-in-out;
     }
-    to {
-      transform: translateY(0);
-      opacity: 1;
+
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
-  }
-</style>
-  
+
+    .footer-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .footer-link:hover {
+      color: #fc5c7d;
+    }
+
+    .footer-button {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .footer-button:hover {
+      background: #fff;
+      color: #6a82fb;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(106, 130, 251, 0.5);
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
 </body>
-
 </html>
