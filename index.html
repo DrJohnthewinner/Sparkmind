@@ -42,7 +42,13 @@
             margin-bottom: 30px;
             line-height: 1.6;
         }
-        .start-button {
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Spacing between buttons */
+            margin-top: 30px;
+        }
+        .action-button {
             display: inline-block;
             padding: 15px 30px;
             border-radius: 50px;
@@ -53,11 +59,13 @@
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%; /* Make buttons full width in group */
+            box-sizing: border-box; /* Include padding and border in width */
         }
-        .start-button:hover {
+        .action-button:hover {
             background: #fc5c7d;
             color: #fff;
-            transform: translateY(-5px) scale(1.05);
+            transform: translateY(-5px) scale(1.03); /* Slightly less aggressive hover for multiple buttons */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
         @keyframes fadeIn {
@@ -76,7 +84,7 @@
             p {
                 font-size: 1rem;
             }
-            .start-button {
+            .action-button {
                 font-size: 1.1rem;
                 padding: 12px 25px;
             }
@@ -89,7 +97,7 @@
             p {
                 font-size: 0.9rem;
             }
-            .start-button {
+            .action-button {
                 font-size: 1rem;
                 padding: 10px 20px;
             }
@@ -100,7 +108,10 @@
     <div class="container">
         <h1>Welcome to Creative Learning!</h1>
         <p>Embark on an exciting journey of knowledge and discovery. Our platform is designed to make learning engaging and fun for students of all grades.</p>
-        <a href="landing.html" class="start-button">Start Learning</a>
+        <div class="button-group">
+            <a href="landing.html" class="action-button">Learn via Smart Mind</a>
+            <a href="https://junior-sch.netlify.app" target="_blank" class="action-button">Download Schemes and Assessments</a>
+        </div>
     </div>
 </body>
 </html>
