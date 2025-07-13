@@ -142,6 +142,34 @@
       border: 1px solid rgba(106, 130, 251, 0.5);
     }
 
+    /* Home Button */
+    .home-button {
+      margin-top: 25px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .home-button:hover {
+      background: #fff;
+      color: #fc5c7d;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
     /* Footer */
     .footer {
       margin-top: 30px;
@@ -232,6 +260,9 @@
         <button onclick="selectGrade('Grade 8')">Grade 8</button>
         <button onclick="selectGrade('Grade 9')">Grade 9</button>
       </div>
+      <button class="home-button" onclick="window.location.href='index.html'">
+        <i class="fas fa-home"></i> Go back to home page
+      </button>
     </section>
   </div>
 
