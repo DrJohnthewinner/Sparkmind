@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
@@ -12,7 +11,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creative Learning</title>
 
-  <!-- External Resources -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -289,7 +287,6 @@
 </head>
 
 <body>
-  <!-- Ministry of Education Logo -->
   <img src="moe-logo.webp" alt="Ministry of Education Logo" class="moe-logo">
 
   <div id="main-content">
@@ -312,7 +309,7 @@
   <script>
     // Firebase Configuration - REPLACE WITH YOUR ACTUAL CONFIG
     const firebaseConfig = {
-      apiKey: "AIzaSyABC123XYZ456DEF789",
+      apiKey: "YOUR_ACTUAL_FIREBASE_API_KEY", // <-- REPLACE THIS WITH YOUR ACTUAL KEY
       authDomain: "creative-learning-f2252.firebaseapp.com",
       projectId: "creative-learning-f2252",
       storageBucket: "creative-learning-f2252.firebasestorage.app",
@@ -323,62 +320,74 @@
 
     // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
-    const analytics = firebase.analytics();
-    const auth = firebase.auth();
+    const auth = firebase.auth(); // Initialize auth here
     const db = firebase.firestore();
 
-    // Enable analytics debugging in development
-    if (window.location.hostname === "localhost") {
-      analytics.setDebugModeEnabled(true);
-    }
+    // Initialize Analytics conditionally and log events
+    if (firebase.analytics.isSupported()) {
+        const analytics = firebase.analytics();
 
-    // Track page view
-    analytics.logEvent('page_view', {
-      page_title: 'Grade Selection',
-      page_path: '/landing',
-      user_id: auth.currentUser ? auth.currentUser.uid : 'anonymous'
-    });
+        // Enable analytics debugging in development
+        if (window.location.hostname === "localhost") {
+            analytics.setDebugModeEnabled(true);
+        }
+
+        // Track page view AFTER auth state might be known (or on auth state change)
+        auth.onAuthStateChanged(user => {
+            analytics.logEvent('page_view', {
+                page_title: 'Grade Selection',
+                page_path: '/landing',
+                user_id: user ? user.uid : 'anonymous'
+            });
+        });
+
+        // Track all button clicks generically
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    analytics.logEvent('button_click', {
+                        button_text: this.innerText.trim(),
+                        page_location: window.location.pathname
+                    });
+                });
+            });
+        });
+
+        // Track user engagement time
+        let startTime = new Date();
+        window.addEventListener('beforeunload', () => {
+            const engagementTime = (new Date() - startTime) / 1000;
+            analytics.logEvent('user_engagement', {
+                engagement_time: engagementTime,
+                page_path: window.location.pathname
+            });
+        });
+    } else {
+        console.warn("Firebase Analytics is not supported in this browser environment.");
+    }
 
     // Grade selection handler
     function selectGrade(grade) {
-      analytics.logEvent('grade_selected', {
-        grade: grade,
-        timestamp: new Date().toISOString()
-      });
-      // Add your grade selection logic here
-      alert(`Selected ${grade}`); // Placeholder - replace with your logic
+      if (firebase.analytics.isSupported()) { // Always check before logging
+          analytics.logEvent('grade_selected', {
+              grade: grade,
+              timestamp: new Date().toISOString()
+          });
+      }
+      localStorage.setItem('selectedGrade', grade); // Save the selected grade to local storage
+      window.location.href = 'subjects.html';     // Redirect to the subjects page
     }
 
     // Home navigation handler
     function navigateHome() {
-      analytics.logEvent('navigation', {
-        destination: 'home_page',
-        origin: 'grade_selection'
-      });
+      if (firebase.analytics.isSupported()) { // Always check before logging
+          analytics.logEvent('navigation', {
+              destination: 'home_page',
+              origin: 'grade_selection'
+          });
+      }
       window.location.href = 'index.html';
     }
-
-    // Track all button clicks generically
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', function() {
-          analytics.logEvent('button_click', {
-            button_text: this.innerText.trim(),
-            page_location: window.location.pathname
-          });
-        });
-      });
-    });
-
-    // Track user engagement time
-    let startTime = new Date();
-    window.addEventListener('beforeunload', () => {
-      const engagementTime = (new Date() - startTime) / 1000;
-      analytics.logEvent('user_engagement', {
-        engagement_time: engagementTime,
-        page_path: window.location.pathname
-      });
-    });
   </script>
 
   <footer class="footer">
