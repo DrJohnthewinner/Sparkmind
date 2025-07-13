@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
@@ -11,6 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creative Learning</title>
 
+  <!-- External Resources -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -32,7 +34,7 @@
       align-items: center;
       padding: 20px;
       background-attachment: fixed;
-      position: relative; /* Added for logo positioning */
+      position: relative;
     }
 
     /* Ministry of Education Logo */
@@ -53,18 +55,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 80px 0 20px; /* Added top padding for logo */
+      padding: 80px 0 20px;
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Grade Selection Card */
@@ -93,7 +89,7 @@
     }
 
     h1 .fas {
-        font-size: 2.5rem;
+      font-size: 2.5rem;
     }
 
     /* Inspiration Message */
@@ -173,13 +169,61 @@
 
     /* Footer */
     .footer {
-      margin-top: 30px;
-      padding: 15px;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.95rem;
-      text-align: center;
       width: 100%;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      border-radius: 20px 20px 0 0;
+      animation: slideUp 1s ease-in-out;
+      margin-top: 30px;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .footer-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .footer-link:hover {
+      color: #fc5c7d;
+    }
+
+    .footer-button {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .footer-button:hover {
+      background: #fff;
+      color: #6a82fb;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(106, 130, 251, 0.5);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     /* Responsive Adjustments */
@@ -232,13 +276,11 @@
         font-size: 1rem;
         padding: 12px 20px;
       }
-
       .moe-logo {
         height: 35px;
         top: 10px;
         left: 10px;
       }
-
       #main-content {
         padding-top: 60px;
       }
@@ -247,7 +289,7 @@
 </head>
 
 <body>
-  <!-- Ministry of Education Logo at top left -->
+  <!-- Ministry of Education Logo -->
   <img src="moe-logo.webp" alt="Ministry of Education Logo" class="moe-logo">
 
   <div id="main-content">
@@ -261,13 +303,84 @@
         <button onclick="selectGrade('Grade 8')">Grade 8</button>
         <button onclick="selectGrade('Grade 9')">Grade 9</button>
       </div>
-      <button class="home-button" onclick="window.location.href='index.html'">
+      <button class="home-button" onclick="navigateHome()">
         <i class="fas fa-home"></i> Go back to home page
       </button>
     </section>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // Firebase Configuration - REPLACE WITH YOUR ACTUAL CONFIG
+    const firebaseConfig = {
+      apiKey: "AIzaSyABC123XYZ456DEF789",
+      authDomain: "your-project-id.firebaseapp.com",
+      projectId: "your-project-id",
+      storageBucket: "your-project-id.appspot.com",
+      messagingSenderId: "123456789012",
+      appId: "1:123456789012:web:abc123def456",
+      measurementId: "G-ABC123XYZ"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const analytics = firebase.analytics();
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Enable analytics debugging in development
+    if (window.location.hostname === "localhost") {
+      analytics.setDebugModeEnabled(true);
+    }
+
+    // Track page view
+    analytics.logEvent('page_view', {
+      page_title: 'Grade Selection',
+      page_path: '/landing',
+      user_id: auth.currentUser ? auth.currentUser.uid : 'anonymous'
+    });
+
+    // Grade selection handler
+    function selectGrade(grade) {
+      analytics.logEvent('grade_selected', {
+        grade: grade,
+        timestamp: new Date().toISOString()
+      });
+      // Add your grade selection logic here
+      alert(`Selected ${grade}`); // Placeholder - replace with your logic
+    }
+
+    // Home navigation handler
+    function navigateHome() {
+      analytics.logEvent('navigation', {
+        destination: 'home_page',
+        origin: 'grade_selection'
+      });
+      window.location.href = 'index.html';
+    }
+
+    // Track all button clicks generically
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', function() {
+          analytics.logEvent('button_click', {
+            button_text: this.innerText.trim(),
+            page_location: window.location.pathname
+          });
+        });
+      });
+    });
+
+    // Track user engagement time
+    let startTime = new Date();
+    window.addEventListener('beforeunload', () => {
+      const engagementTime = (new Date() - startTime) / 1000;
+      analytics.logEvent('user_engagement', {
+        engagement_time: engagementTime,
+        page_path: window.location.pathname
+      });
+    });
+  </script>
+
   <footer class="footer">
     <div class="footer-container">
       <p>
@@ -278,70 +391,5 @@
       </p>
     </div>
   </footer>
-
-  <style>
-    .footer {
-      width: 100%;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      border-radius: 20px 20px 0 0;
-      animation: slideUp 1s ease-in-out;
-    }
-
-    .footer-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .footer-link {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-
-    .footer-link:hover {
-      color: #fc5c7d;
-    }
-
-    .footer-button {
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-    }
-
-    .footer-button:hover {
-      background: #fff;
-      color: #6a82fb;
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(106, 130, 251, 0.5);
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(30px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-  </style>
 </body>
 </html>
