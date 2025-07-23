@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .register-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      background: #6a82fb;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5a72e1;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .error { color: red; }
+    .success { color: green; }
+
+    /* Modal styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 300px;
+    }
+
+    .modal input {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+    }
+
+    .modal button {
+      margin-top: 15px;
+      background-color: #6a82fb;
+    }
+
+    .modal-error {
+      color: red;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="register-box">
+  <h2>Register</h2>
+  <form id="registerForm">
+    <label>Username</label>
+    <input type="text" id="username" required />
+
+    <label>Password</label>
+    <input type="password" id="password" required />
+
+    <label>Role</label>
+    <select id="role">
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+
+    <button type="submit">Create Account</button>
+    <div id="message" class="message"></div>
+  </form>
+</div>
+
+<!-- Secret Key Modal -->
+<div class="modal-overlay" id="secretModal">
+  <div class="modal">
+    <h3>Enter Secret Key</h3>
+    <input type="password" id="secretInput" placeholder="Enter key here..." />
+    <button onclick="verifyKey()">Submit</button>
+    <div id="modalError" class="modal-error"></div>
+  </div>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const message = document.getElementById('message');
+  message.textContent = '';
+  message.className = 'message';
+
+  const res = await fetch('/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: document.getElementById('username').value,
+      password: document.getElementById('password').value,
+      role: document.getElementById('role').value
+    })
+  });
+
+  if (res.ok) {
+    // Show modal for secret key
+    document.getElementById('secretModal').style.display = 'flex';
+  } else {
+    const data = await res.json();
+    message.textContent = '❌ ' + (data.error || 'Registration failed');
+    message.className = 'message error';
+  }
+});
+
+async function verifyKey() {
+  const input = document.getElementById('secretInput').value;
+  const errorDiv = document.getElementById('modalError');
+
+  const res = await fetch('/verify-key', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key: input })
+  });
+
+  if (res.ok) {
+    errorDiv.textContent = '';
+    document.getElementById('secretModal').style.display = 'none';
+    document.getElementById('message').textContent = '✅ Verified. Redirecting...';
+    document.getElementById('message').className = 'message success';
+    setTimeout(() => {
+      window.location.href = '/admin.html';
+    }, 1000);
+  } else {
+    errorDiv.textContent = '❌ Incorrect secret key.';
+  }
+}
+</script>
+
+</body>
+</html>
