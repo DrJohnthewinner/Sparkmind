@@ -186,20 +186,28 @@
     </section>
   </div>
 
-  <script>
-    function goBackToGradesPage() {
-      window.location.href = 'landing.html';
-    }
+<script>
+  function selectGrade(grade) {
+    localStorage.setItem('selectedGrade', grade);
+    window.location.href = 'subjects.html';
+  }
 
-    function navigateToSubjectPage(subject) {
-      window.location.href = "note.html?subject=" + encodeURIComponent(subject);
-    }
+  function navigateHome() {
+    window.location.href = 'index.html';
+  }
+  function goBackToGradesPage() {
+    window.location.href = 'landing.html';
+  }
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const grade = localStorage.getItem('selectedGrade') || 'Unknown Grade';
-      document.getElementById('grade-display').textContent = grade;
-    });
-  </script>
+  function navigateToSubjectPage(subject) {
+    window.location.href = 'note.html?subject=' + encodeURIComponent(subject);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const grade = localStorage.getItem('selectedGrade') || 'Unknown Grade';
+    document.getElementById('grade-display').textContent = grade;
+  });
+</script>
 
   <footer>
     <p>Copyright &copy; Sparkminds</p>
