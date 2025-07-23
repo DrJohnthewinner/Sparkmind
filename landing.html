@@ -2,10 +2,6 @@
 <html lang="en">
 
 <head>
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics-compat.js"></script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creative Learning</title>
@@ -99,7 +95,7 @@
       border-radius: 15px;
       font-style: italic;
       line-height: 1.7;
-      color: #fff;
+      color: #fff(0, 0, 0, 0.1);
       box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.15);
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
@@ -202,7 +198,7 @@
       padding: 10px 20px;
       border-radius: 30px;
       background: rgba(255, 255, 255, 0.2);
-      color: #fff;
+      color: #6a82fb;
       text-decoration: none;
       font-weight: 600;
       transition: all 0.3s ease;
@@ -306,73 +302,17 @@
       </button>
     </section>
   </div>
-
   <script>
-    // Firebase Configuration - REPLACE WITH YOUR ACTUAL CONFIG
-    const firebaseConfig = {
-      apiKey: "AIzaSyABCpgwLNKvUxdYtnz5HBHH9IlnDZgEbUo",
-      authDomain: "creative-learning-f2252.firebaseapp.com",
-      projectId: "creative-learning-f2252",
-      storageBucket: "creative-learning-f2252.firebasestorage.app",
-      messagingSenderId: "451756350336",
-      appId: "1:451756350336:web:19b9255b8834a01f4cff65",
-      measurementId: "G-6Y2QFJ6MEV"
-    };
-
-    try {
-      // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
-      const analytics = firebase.analytics();
-
-      // Enable debug mode in development
-      if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-        analytics.setDebugModeEnabled(true);
-        console.log("Analytics debug mode enabled");
-      }
-
-      // Track initial page view
-      analytics.logEvent('page_view', {
-        page_title: 'Grade Selection',
-        page_path: '/landing'
-      });
-
-      // Grade selection handler - Now redirects to subject.html
-      function selectGrade(grade) {
-        // Track the selection
-        analytics.logEvent('grade_selected', {
-          grade: grade,
-          timestamp: new Date().toISOString()
-        });
-        
-        // Store grade and redirect
-        localStorage.setItem('selectedGrade', grade);
-        window.location.href = 'subjects.html';
-      }
-
-      // Home navigation handler
-      function navigateHome() {
-        analytics.logEvent('navigation', {
-          destination: 'home_page',
-          origin: 'grade_selection'
-        });
-        window.location.href = 'index.html';
-      }
-
-      // Track user engagement time
-      const startTime = new Date();
-      window.addEventListener('beforeunload', () => {
-        const engagementTime = (new Date() - startTime) / 1000;
-        analytics.logEvent('user_engagement', {
-          engagement_time: engagementTime,
-          page_path: window.location.pathname
-        });
-      });
-
-    } catch (error) {
-      console.error("Firebase initialization error:", error);
+    function selectGrade(grade) {
+      localStorage.setItem('selectedGrade', grade);
+      window.location.href = 'subjects.html';
+    }
+  
+    function navigateHome() {
+      window.location.href = 'index.html';
     }
   </script>
-
+  
   <footer class="footer">
     <div class="footer-container">
       <p>
