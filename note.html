@@ -5,9 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subject Notes | Learn with Fun!</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -433,115 +430,92 @@
       </p>
     </div>
   </footer>
-
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyABCpgwLNKvUxdYtnz5HBHH9IlnDZgEbUo",
-      authDomain: "creative-learning-f2252.firebaseapp.com",
-      projectId: "creative-learning-f2252",
-      storageBucket: "creative-learning-f2252.appspot.com",
-      messagingSenderId: "451756350336",
-      appId: "1:451756350336:web:19b9255b8834a01f4cff65"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    const SUPABASE_URL = 'https://jjqbpiujwmlfgztpinyp.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqcWJwaXVqd21sZmd6dHBpbnlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkzOTA3MzgsImV4cCI6MjA2NDk2NjczOH0.YOUR_ACTUAL_ANON_KEY_HERE';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const subjectId = urlParams.get('subject');
+      const subject = urlParams.get('subject');
       const grade = localStorage.getItem('selectedGrade') || 'Unknown Grade';
       const subjectNameElement = document.getElementById('subject-name');
       const gradeDisplay = document.getElementById('grade-display');
       const subjectNotesArea = document.getElementById('subject-notes-area');
 
-      if (subjectId) {
-        const displaySubjectName = subjectId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-        subjectNameElement.textContent = displaySubjectName;
-        gradeDisplay.textContent = grade;
-        document.title = `${displaySubjectName} Notes | ${grade} | Learn with Fun!`;
-        loadSubjectNotes(subjectId.toLowerCase(), grade, subjectNotesArea);
-      } else {
+      if (!subject) {
         subjectNameElement.textContent = 'Unknown Subject';
         subjectNotesArea.innerHTML = '<p>No subject selected. Please go back and choose a subject.</p>';
+        return;
+      }
+
+      const displaySubject = subject
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+
+      subjectNameElement.textContent = displaySubject;
+      gradeDisplay.textContent = grade;
+      document.title = `${displaySubject} Notes | ${grade} | Learn with Fun!`;
+
+      try {
+        const response = await fetch(`/api/notes?grade=${encodeURIComponent(grade)}&subject=${encodeURIComponent(subject)}`);
+        const notes = await response.json();
+
+        if (!Array.isArray(notes) || notes.length === 0) {
+          subjectNotesArea.innerHTML = '<p>No notes found for this subject and grade.</p>';
+          return;
+        }
+
+        const list = document.createElement('ul');
+        list.className = 'note-list';
+
+        notes.forEach(note => {
+          const noteId = (note.createdAt || Date.now()).toString().replace(/[:.TZ\-]/g, '');
+          const noteItem = document.createElement('li');
+          noteItem.className = 'note-item';
+
+          const title = document.createElement('div');
+          title.className = 'note-title';
+          title.innerHTML = `
+            ${note.topic || 'Untitled'}
+            <span class="note-sub-topic">${note.subTopic || ''}</span>
+          `;
+          title.onclick = () => toggleNote(noteId);
+
+          const details = document.createElement('div');
+          details.id = `details-${noteId}`;
+          details.className = 'note-details';
+          details.innerHTML = `
+            <div class="note-content">${note.content || ''}</div>
+            ${note.fileUrl ? renderFile(note.fileUrl) : ''}
+            <small>Posted: ${note.createdAt ? new Date(note.createdAt).toLocaleDateString() : 'Unknown date'}</small>
+          `;
+
+          noteItem.appendChild(title);
+          noteItem.appendChild(details);
+          list.appendChild(noteItem);
+        });
+
+        subjectNotesArea.innerHTML = '';
+        subjectNotesArea.appendChild(list);
+
+      } catch (error) {
+        console.error('Error loading notes:', error);
+        subjectNotesArea.innerHTML = '<p>Error loading notes. Please try again later.</p>';
       }
     });
 
-    function loadSubjectNotes(subjectId, grade, notesArea) {
-      db.collection('notes')
-        .where('subject', '==', subjectId)
-        .where('grade', '==', grade)
-        .orderBy('createdAt', 'desc')
-        .get()
-        .then(querySnapshot => {
-          if (querySnapshot.empty) {
-            notesArea.innerHTML = '<p>No notes available for this subject yet.</p>';
-            return;
-          }
-
-          let notesHTML = '<ul class="note-list">';
-          querySnapshot.forEach(doc => {
-            const note = doc.data();
-            const noteId = doc.id;
-            const date = note.createdAt && typeof note.createdAt.toDate === 'function' ?
-              note.createdAt.toDate().toLocaleDateString() :
-              'Unknown date';
-
-            let fileDisplay = '';
-            if (note.fileUrl) {
-              if (note.fileType === 'application/pdf' || note.fileUrl.endsWith('.pdf')) {
-                fileDisplay = `
-                  <a href="${note.fileUrl}" target="_blank" class="file-link">
-                    <i class="fas fa-file-pdf"></i> View PDF
-                  </a>
-                `;
-              } else if (note.fileType?.startsWith('image/')) {
-                fileDisplay = `
-                  <div>
-                    <img src="${note.fileUrl}" alt="Note image" class="note-image" onclick="window.open('${note.fileUrl}', '_blank')">
-                  </div>
-                `;
-              } else {
-                fileDisplay = `
-                  <a href="${note.fileUrl}" target="_blank" class="file-link">
-                    <i class="fas fa-file-download"></i> Download File
-                  </a>
-                `;
-              }
-            }
-
-            notesHTML += `
-              <li class="note-item">
-                <div class="note-title" onclick="toggleNote('${noteId}')">
-                  ${note.noteTopic}
-                  <span class="note-sub-topic">${note.subTopic || ''}</span>
-                </div>
-                <div id="details-${noteId}" class="note-details">
-                  <div class="note-content">${note.content}</div>
-                  ${fileDisplay}
-                  <small>Posted: ${date}</small>
-                </div>
-              </li>
-            `;
-          });
-          notesHTML += '</ul>';
-          notesArea.innerHTML = notesHTML;
-        })
-        .catch(error => {
-          console.error("Error loading notes:", error);
-          notesArea.innerHTML = `<p>Error loading notes. Please try again later.</p>`;
-        });
+    function toggleNote(noteId) {
+      const el = document.getElementById(`details-${noteId}`);
+      if (el) {
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+      }
     }
 
-    function toggleNote(noteId) {
-      const details = document.getElementById(`details-${noteId}`);
-      if (details.style.display === 'block') {
-        details.style.display = 'none';
+    function renderFile(url) {
+      if (url.endsWith('.pdf')) {
+        return `<a href="${url}" target="_blank" class="file-link"><i class="fas fa-file-pdf"></i> View PDF</a>`;
+      } else if (url.match(/\.(jpeg|jpg|png|gif)$/i)) {
+        return `<img src="${url}" class="note-image" alt="Note Image" onclick="window.open('${url}', '_blank')" />`;
       } else {
-        details.style.display = 'block';
+        return `<a href="${url}" target="_blank" class="file-link"><i class="fas fa-file-download"></i> Download File</a>`;
       }
     }
   </script>
